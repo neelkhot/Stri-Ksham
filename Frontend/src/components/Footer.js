@@ -2,119 +2,166 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { BsLinkedin, BsGithub, BsYoutube, BsInstagram } from "react-icons/bs";
 import newsletter from "../images/newsletter.png";
+
 const Footer = () => {
   return (
     <>
-      <footer className="py-4">
+      {/* Newsletter Section */}
+      <footer className="premium-newsletter">
         <div className="container-xxl">
           <div className="row align-items-center">
             <div className="col-5">
-              <div className="footer-top-data d-flex gap-30 align-items-center">
-                <img src={newsletter} alt="newsletter" />
-                <h2 className="mb-0 text-white">Sign Up for Newsletter</h2>
-              </div>
-            </div>
-            <div className="col-7">
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control py-1"
-                  placeholder="Your Email Address"
-                  aria-label="Your Email Address"
-                  aria-describedby="basic-addon2"
-                />
-                <span className="input-group-text p-2" id="basic-addon2">
-                  Subscribe
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
-      <footer className="py-4">
-        <div className="container-xxl">
-          <div className="row">
-            <div className="col-4">
-              <h4 className="text-white mb-4">Contact Us</h4>
-              <div>
-                <address className="text-white fs-6">
-                  Hno : Daiict college, Reliance Cross Rd, <br />{" "}
-                  Gandhinagar,Gujarat <br />
-                  PinCode: 382007
-                </address>
-                <a
-                  href="tel:+91 8264954234"
-                  className="mt-3 d-block mb-1 text-white"
-                >
-                  +91 8264954234
-                </a>
-                <a
-                  href="mailto:devjariwala8444@gmail.com"
-                  className="mt-2 d-block mb-0 text-white"
-                >
-                  devjariwala8444@gmail.com
-                </a>
-                <div className="social_icons d-flex align-items-center gap-30 mt-4">
-                  <a className="text-white" href="#">
-                    <BsLinkedin className="fs-4" />
-                  </a>
-                  <a className="text-white" href="#">
-                    <BsInstagram className="fs-4" />
-                  </a>
-                  <a className="text-white" href="#">
-                    <BsGithub className="fs-4" />
-                  </a>
-                  <a className="text-white" href="#">
-                    <BsYoutube className="fs-4" />
-                  </a>
+              <div className="newsletter-content">
+                <div className="newsletter-icon">
+                  <img src={newsletter} alt="newsletter" />
+                </div>
+                <div className="newsletter-text">
+                  <h2>Join Our Newsletter</h2>
+                  <p>Subscribe to receive updates, exclusive offers, and style tips</p>
                 </div>
               </div>
             </div>
-            <div className="col-3">
-              <h4 className="text-white mb-4">Information</h4>
-              <div className="footer-link d-flex flex-column">
-                <Link to="/privacy-policy" className="text-white py-2 mb-1">
-                  Privacy Policy
+            <div className="col-7">
+              <form className="newsletter-form">
+                <input
+                  type="email"
+                  placeholder="Enter your email address"
+                  className="newsletter-input"
+                />
+                <button type="submit" className="newsletter-btn">
+                  Subscribe
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      {/* Main Footer */}
+      <footer className="premium-footer">
+        <div className="container-xxl">
+          <div className="row">
+            {/* Brand Column */}
+            <div className="col-lg-3 col-md-6 col-12">
+              <div className="footer-brand-col">
+                <Link to="/" className="footer-brand">
+                  <span className="brand-name">SHREE</span>
+                  <span className="brand-sub">FASHION</span>
                 </Link>
-                <Link to="/refund-policy" className="text-white py-2 mb-1">
-                  Refund Policy
-                </Link>
-                <Link to="/shipping-policy" className="text-white py-2 mb-1">
-                  Shipping Policy
-                </Link>
-                <Link to="/term-conditions" className="text-white py-2 mb-1">
-                  Terms & Conditions
-                </Link>
-                <Link className="text-white py-2 mb-1">Blogs</Link>
+                <p className="brand-desc">
+                  Your destination for premium women's fashion. Curated styles for the modern woman who embraces elegance.
+                </p>
+                <div className="social-links">
+                  <a href="#" className="social-link"><BsInstagram /></a>
+                  <a href="#" className="social-link"><BsLinkedin /></a>
+                  <a href="#" className="social-link"><BsYoutube /></a>
+                  <a href="#" className="social-link"><BsGithub /></a>
+                </div>
               </div>
             </div>
-            <div className="col-3">
-              <h4 className="text-white mb-4">Account</h4>
-              <div className="footer-link d-flex flex-column">
-                <Link className="text-white py-2 mb-1">About Us</Link>
-                <Link className="text-white py-2 mb-1">Faq</Link>
-                <Link className="text-white py-2 mb-1">Contact</Link>
+
+            {/* Quick Links */}
+            <div className="col-lg-2 col-md-3 col-6">
+              <div className="footer-links-col">
+                <h4>Shop</h4>
+                <ul className="footer-links">
+                  <li><Link to="/product">New Arrivals</Link></li>
+                  <li><Link to="/product">Best Sellers</Link></li>
+                  <li><Link to="/product">Dresses</Link></li>
+                  <li><Link to="/product">Tops & Blouses</Link></li>
+                  <li><Link to="/product">Ethnic Wear</Link></li>
+                  <li><Link to="/product">Accessories</Link></li>
+                </ul>
               </div>
             </div>
-            <div className="col-2">
-              <h4 className="text-white mb-4">Quick Links</h4>
-              <div className="footer-link d-flex flex-column">
-                <Link className="text-white py-2 mb-1">Laptops</Link>
-                <Link className="text-white py-2 mb-1">Headphones</Link>
-                <Link className="text-white py-2 mb-1">Tablets</Link>
-                <Link className="text-white py-2 mb-1">Watch</Link>
+
+            {/* Information */}
+            <div className="col-lg-2 col-md-3 col-6">
+              <div className="footer-links-col">
+                <h4>Information</h4>
+                <ul className="footer-links">
+                  <li><Link to="/about">About Us</Link></li>
+                  <li><Link to="/contact">Contact</Link></li>
+                  <li><Link to="/blogs">Blog</Link></li>
+                  <li><Link to="/faq">FAQ</Link></li>
+                  <li><Link to="/career">Careers</Link></li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Customer Service */}
+            <div className="col-lg-2 col-md-3 col-6">
+              <div className="footer-links-col">
+                <h4>Service</h4>
+                <ul className="footer-links">
+                  <li><Link to="/shipping-policy">Shipping Info</Link></li>
+                  <li><Link to="/return-policy">Returns</Link></li>
+                  <li><Link to="/order-track">Track Order</Link></li>
+                  <li><Link to="/size-guide">Size Guide</Link></li>
+                  <li><Link to="/care">Fabric Care</Link></li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Contact Info */}
+            <div className="col-lg-3 col-md-3 col-12">
+              <div className="footer-contact-col">
+                <h4>Contact Us</h4>
+                <div className="contact-info">
+                  <div className="contact-item">
+                    <span className="contact-icon">◈</span>
+                    <div>
+                      <p className="contact-label">Address</p>
+                      <p className="contact-value">
+                        Daiict College, Reliance Cross Rd,<br />
+                        Gandhinagar, Gujarat 382007
+                      </p>
+                    </div>
+                  </div>
+                  <div className="contact-item">
+                    <span className="contact-icon">◈</span>
+                    <div>
+                      <p className="contact-label">Phone</p>
+                      <a href="tel:+91 8788790703" className="contact-value">
+                        +91 8788790703
+                      </a>
+                    </div>
+                  </div>
+                  <div className="contact-item">
+                    <span className="contact-icon">◈</span>
+                    <div>
+                      <p className="contact-label">Email</p>
+                      <a href="mailto:devjariwala8444@gmail.com" className="contact-value">
+                        devjariwala8444@gmail.com
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </footer>
-      <footer className="py-4">
+
+      {/* Bottom Bar */}
+      <footer className="premium-footer-bottom">
         <div className="container-xxl">
-          <div className="row">
-            <div className="col-12">
-              <p className="text-center mb-0 text-white">
-                &copy; {new Date().getFullYear()}; Powered by Cart Corner
+          <div className="row align-items-center">
+            <div className="col-md-6">
+              <p className="copyright">
+                © {new Date().getFullYear()} Shree Fashion. All rights reserved.
               </p>
+            </div>
+            <div className="col-md-6">
+              <div className="payment-methods">
+                <span>We Accept</span>
+                <div className="payment-icons">
+                  <span className="payment-icon">Visa</span>
+                  <span className="payment-icon">Master</span>
+                  <span className="payment-icon">UPI</span>
+                  <span className="payment-icon">Pay</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

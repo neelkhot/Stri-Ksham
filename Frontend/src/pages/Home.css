@@ -21,10 +21,77 @@
   background: var(--pure-white);
   color: var(--primary-dark);
   overflow-x: hidden;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.home-page.loaded {
+  opacity: 1;
 }
 
 /* ========================================
-   HERO SECTION
+   PAGE LOADER
+   ======================================== */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  background: var(--primary-dark);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.page-loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-content {
+  text-align: center;
+}
+
+.loader-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  font-weight: 300;
+  color: var(--pure-white);
+  letter-spacing: 8px;
+  margin-bottom: 30px;
+  animation: loaderPulse 1.5s ease-in-out infinite;
+}
+
+.loader-bar {
+  width: 200px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.loader-progress {
+  height: 100%;
+  width: 0;
+  background: var(--accent-gold);
+  animation: loaderFill 2s ease-out forwards;
+}
+
+@keyframes loaderPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes loaderFill {
+  0% { width: 0; }
+  50% { width: 70%; }
+  100% { width: 100%; }
+}
+
+/* ========================================
+   MULTI-LAYER PARALLAX HERO
    ======================================== */
 .hero-section {
   position: relative;
@@ -36,22 +103,73 @@
   justify-content: center;
 }
 
-.hero-bg {
+/* Parallax Layers */
+.parallax-layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.parallax-layer-1 {
+  z-index: 1;
+}
+
+.parallax-layer-2 {
+  z-index: 2;
+}
+
+.parallax-layer-3 {
+  z-index: 3;
+}
+
+/* Layer 1 - Gradient Background */
+.layer-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(26, 26, 26, 0.95) 0%,
+    rgba(45, 45, 45, 0.9) 50%,
+    rgba(26, 26, 26, 0.95) 100%
+  );
+}
+
+.layer-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(201, 169, 98, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(201, 169, 98, 0.03) 0%, transparent 50%);
+  background-size: 60px 60px;
+}
+
+/* Layer 2 - Background Image */
+.layer-image {
   position: absolute;
   width: 100%;
   height: 120%;
   object-fit: cover;
-  will-change: transform;
+  top: -10%;
+}
+
+/* Layer 3 - Floating Elements */
+.floating-element {
+  position: absolute;
+  font-size: 1.5rem;
+  color: var(--accent-gold);
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
+  z-index: 4;
   background: linear-gradient(
     180deg,
-    rgba(26, 26, 26, 0.3) 0%,
-    rgba(26, 26, 26, 0.5) 50%,
-    rgba(26, 26, 26, 0.7) 100%
+    rgba(26, 26, 26, 0.2) 0%,
+    rgba(26, 26, 26, 0.4) 50%,
+    rgba(26, 26, 26, 0.6) 100%
   );
 }
 

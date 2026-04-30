@@ -468,7 +468,7 @@
 
 // export default Home;
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -484,6 +484,7 @@ const Home = () => {
   const productsRef = useRef(null);
   const featuresRef = useRef(null);
   const newsletterRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -491,9 +492,12 @@ const Home = () => {
   const productState = useSelector((state) => state?.product?.product);
 
   useEffect(() => {
+    // Page load transition
+    setTimeout(() => setIsLoaded(true), 100);
+
     dispatch(getAllProducts());
 
-    // Hero Animation
+    // Hero Content Animation (on load)
     gsap.fromTo(heroRef.current.querySelector(".hero-content > *"), 
       { opacity: 0, y: 60 },
       { 
@@ -502,9 +506,58 @@ const Home = () => {
         duration: 1.2, 
         stagger: 0.2,
         ease: "power3.out",
-        delay: 0.3
+        delay: 0.5
       }
     );
+
+    // Multi-layer Parallax Effect
+    gsap.to(".parallax-layer-1", {
+      yPercent: 50,
+      ease: "none",
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    gsap.to(".parallax-layer-2", {
+      yPercent: 30,
+      ease: "none",
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    gsap.to(".parallax-layer-3", {
+      yPercent: 15,
+      ease: "none",
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    // Floating particles animation
+    gsap.to(".floating-element", {
+      y: "random(-20, 20)",
+      x: "random(-15, 15)",
+      rotation: "random(-10, 10)",
+      duration: "random(3, 5)",
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+      stagger: {
+        each: 0.5,
+        from: "random"
+      }
+    });
 
     // Category Cards Animation
     gsap.fromTo(".category-card",
@@ -571,18 +624,6 @@ const Home = () => {
       }
     );
 
-    // Parallax effect on hero
-    gsap.to(".hero-bg", {
-      yPercent: 30,
-      ease: "none",
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: true
-      }
-    });
-
     setTimeout(() => ScrollTrigger.refresh(), 500);
   }, [dispatch]);
 
@@ -594,12 +635,44 @@ const Home = () => {
   ];
 
   return (
-    <div className="home-page">
-      {/* HERO SECTION */}
+    <div className={`home-page ${isLoaded ? 'loaded' : ''}`}>
+      {/* PAGE LOADING OVERLAY */}
+      <div className={`page-loader ${isLoaded ? 'hidden' : ''}`}>
+        <div className="loader-content">
+          <div className="loader-logo">SF</div>
+          <div className="loader-bar">
+            <div className="loader-progress"></div>
+          </div>
+        </div>
+      </div>
+
+      {/* HERO SECTION WITH MULTI-LAYER PARALLAX */}
       <section ref={heroRef} className="hero-section">
-        <img src="/images/123.jpg" alt="hero" className="hero-bg" />
+        {/* Layer 1 - Furthest (slowest) - Background gradient/texture */}
+        <div className="parallax-layer parallax-layer-1">
+          <div className="layer-gradient"></div>
+          <div className="layer-pattern"></div>
+        </div>
+
+        {/* Layer 2 - Mid background */}
+        <div className="parallax-layer parallax-layer-2">
+          <img src="/images/123.jpg" alt="hero background" className="layer-image" />
+        </div>
+
+        {/* Layer 3 - Closer (faster) - Floating elements */}
+        <div className="parallax-layer parallax-layer-3">
+          <div className="floating-element" style={{ top: '15%', left: '10%' }}>✦</div>
+          <div className="floating-element" style={{ top: '25%', left: '85%' }}>◇</div>
+          <div className="floating-element" style={{ top: '60%', left: '5%' }}>○</div>
+          <div className="floating-element" style={{ top: '70%', left: '90%' }}>✦</div>
+          <div className="floating-element" style={{ top: '40%', left: '75%' }}>◇</div>
+          <div className="floating-element" style={{ top: '80%', left: '20%' }}>○</div>
+        </div>
+
+        {/* Main overlay */}
         <div className="hero-overlay" />
         
+        {/* Hero content */}
         <div className="hero-content">
           <span className="hero-subtitle">New Collection 2026</span>
           <h1>Elegance Redefined</h1>
@@ -614,6 +687,7 @@ const Home = () => {
           </div>
         </div>
         
+        {/* Scroll indicator */}
         <div className="hero-scroll-indicator">
           <span>Scroll</span>
           <div className="scroll-line"></div>

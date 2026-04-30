@@ -20,6 +20,8 @@ const Header = () => {
   const [paginate, setPaginate] = useState(true);
   const productState = useSelector((state) => state?.product?.product);
   const navigate = useNavigate();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const getTokenFromLocalStorage = localStorage.getItem("customer")
     ? JSON.parse(localStorage.getItem("customer"))
@@ -36,6 +38,13 @@ const Header = () => {
 
   useEffect(() => {
     dispatch(getUserCart(config2));
+    
+    // Scroll listener for header
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const [productOpt, setProductOpt] = useState([]);
@@ -60,178 +69,153 @@ const Header = () => {
     localStorage.clear();
     window.location.reload();
   };
+
   return (
     <>
-      <header className="header-top-strip py-3">
-        <div className="container-xxl">
-          <div className="row">
-            <div className="col-6">
-              <p className="text-white mb-0">Free Shipping Over Rs.100</p>
-            </div>
-            <div className="col-6">
-              <p className="text-end text-white mb-0">
-                Hotline:
-                <a className="text-white" href="tel:+91 8788790703">
-                  +91 8788790703
-                </a>
-              </p>
+      {/* Top Info Bar */}
+      <div className={`premium-header ${isScrolled ? "scrolled" : ""}`}>
+        <div className="header-top-bar">
+          <div className="container-xxl">
+            <div className="row align-items-center">
+              <div className="col-6">
+                <p className="top-bar-text">
+                  <span className="highlight">Free Shipping</span> on orders above ₹999
+                </p>
+              </div>
+              <div className="col-6">
+                <div className="top-bar-right">
+                  <p className="top-bar-text">
+                    Need Help? 
+                    <a className="contact-link" href="tel:+91 8788790703">
+                      +91 8788790703
+                    </a>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </header>
-      <header className="header-upper py-3">
-        <div className="container-xxl">
-          <div className="row align-items-center">
-            <div className="col-2">
-              <h2>
-                <Link className="text-white" to="/ ">
-                  Ecommerce website
+
+        {/* Main Header */}
+        <header className="header-main">
+          <div className="container-xxl">
+            <div className="row align-items-center">
+              {/* Logo */}
+              <div className="col-2">
+                <Link className="brand-logo" to="/">
+                  <span className="logo-text">SHREE</span>
+                  <span className="logo-sub">FASHION</span>
                 </Link>
-              </h2>
-            </div>
-            <div className="col-5">
-              <div className="input-group">
-                <Typeahead
-                  id="pagination-example"
-                  onPaginate={() => console.log("Results paginated")}
-                  onChange={(selected) => {
-                    navigate(`/product/${selected[0]?.prod}`);
-                    dispatch(getAProduct(selected[0]?.prod));
-                  }}
-                  options={productOpt}
-                  paginate={paginate}
-                  labelKey={"name"}
-                  placeholder="Search for Products here"
-                />
-                <span className="input-group-text p-3" id="basic-addon2">
-                  <BsSearch className="fs-6" />
-                </span>
               </div>
-            </div>
-            <div className="col-5">
-              <div className="header-upper-links d-flex align-items-center justify-content-between">
-                <div>
-                  {/* <Link
-                    to="/compare-product"
-                    className="d-flex align-items-center gap-10 text-white"
-                  >
-                    <img src={compare} alt="compare" />
-                    <p className="mb-0">
-                      Compare <br /> Products
-                    </p>
-                  </Link> */}
+
+              {/* Search Bar */}
+              <div className="col-5">
+                <div className="premium-search">
+                  <Typeahead
+                    id="pagination-example"
+                    onPaginate={() => console.log("Results paginated")}
+                    onChange={(selected) => {
+                      navigate(`/product/${selected[0]?.prod}`);
+                      dispatch(getAProduct(selected[0]?.prod));
+                    }}
+                    options={productOpt}
+                    paginate={paginate}
+                    labelKey={"name"}
+                    placeholder="Search for Products..."
+                    className="search-input"
+                  />
+                  <button className="search-btn">
+                    <BsSearch className="fs-6" />
+                  </button>
                 </div>
-                <div>
-                  <Link
-                    to="/wishlist"
-                    className="d-flex align-items-center gap-10 text-white"
-                  >
-                    <img src={wishlist} alt="wishlist" />
-                    <p className="mb-0">
-                      Favourite <br /> wishlist
-                    </p>
+              </div>
+
+              {/* Action Icons */}
+              <div className="col-5">
+                <div className="header-actions">
+                  <Link to="/compare-product" className="action-item">
+                    <div className="icon-wrapper">
+                      <img src={compare} alt="compare" />
+                    </div>
+                    <div className="action-label">
+                      <span className="action-title">Compare</span>
+                      <span className="action-sub">Products</span>
+                    </div>
                   </Link>
-                </div>
-                <div>
-                  <Link
-                    to={authState?.user === null ? "/login" : "my-profile"}
-                    className="d-flex align-items-center gap-10 text-white"
-                  >
-                    <img src={user} alt="user" />
-                    {authState?.user === null ? (
-                      <p className="mb-0">
-                        Log in <br /> My Account
-                      </p>
-                    ) : (
-                      <p className="mb-0">
-                        Welcome {authState?.user?.firstname}
-                      </p>
-                    )}
+                  
+                  <Link to="/wishlist" className="action-item">
+                    <div className="icon-wrapper">
+                      <img src={wishlist} alt="wishlist" />
+                      <span className="badge-count">2</span>
+                    </div>
+                    <div className="action-label">
+                      <span className="action-title">Wishlist</span>
+                      <span className="action-sub">Items</span>
+                    </div>
                   </Link>
-                </div>
-                <div>
-                  <Link
-                    to="/cart"
-                    className="d-flex align-items-center gap-10 text-white"
-                  >
-                    <img src={cart} alt="cart" />
-                    <div className="d-flex flex-column gap-10">
-                      <span className="badge bg-white text-dark">
-                        {cartState?.length ? cartState?.length : 0}
-                      </span>
-                      <p className="mb-0">
-                        Rs. {!cartState?.length ? 0 : total ? total : 0}
-                      </p>
+                  
+                  <Link to={authState?.user === null ? "/login" : "/my-profile"} className="action-item">
+                    <div className="icon-wrapper user-icon">
+                      <img src={user} alt="user" />
+                    </div>
+                    <div className="action-label">
+                      {authState?.user === null ? (
+                        <>
+                          <span className="action-title">Sign In</span>
+                          <span className="action-sub">Account</span>
+                        </>
+                      ) : (
+                        <span className="action-title">Welcome, {authState?.user?.firstname}</span>
+                      )}
+                    </div>
+                  </Link>
+                  
+                  <Link to="/cart" className="action-item cart-item">
+                    <div className="icon-wrapper">
+                      <img src={cart} alt="cart" />
+                      {cartState?.length > 0 && (
+                        <span className="badge-count">{cartState?.length}</span>
+                      )}
+                    </div>
+                    <div className="action-label">
+                      <span className="action-title">₹{total || 0}</span>
+                      <span className="action-sub">Cart</span>
                     </div>
                   </Link>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </header>
-      <header className="header-bottom py-3">
-        <div className="container-xxl">
-          <div className="row">
-            <div className="col-12">
-              <div className="menu-bottom d-flex align-items-center gap-30">
-                <div>
-                  <div className="dropdown">
-                    <button
-                      className="btn btn-secondary dropdown-toggle bg-transparent border-0 gap-15 d-flex align-items-center"
-                      type="button"
-                      id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <img src={menu} alt="" />
-                      <span className="me-5 d-inline-block">
-                        Shop Categories
-                      </span>
-                    </button>
-                    <ul
-                      className="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton1"
-                    >
-                      {productState &&
-                        productState.map((item, index) => {
-                          return (
-                            <li key={index}>
-                              <Link className="dropdown-item text-white" to="">
-                                {item?.category}
-                              </Link>
-                            </li>
-                          );
-                        })}
-                    </ul>
-                  </div>
-                </div>
-                <div className="menu-links">
-                  <div className="d-flex align-items-center gap-15">
-                    <NavLink to="/">Home</NavLink>
-                    <NavLink to="/product">Our Store</NavLink>
-                    <NavLink to="/my-orders">My Orders</NavLink>
-                    <NavLink to="/blogs">Blogs</NavLink>
-                    <NavLink to="/contact">Contact</NavLink>
-                    {authState?.user !== null ? (
-                      <button
-                        className="border border-0 bg-trasparent text-white text-uppercase"
-                        type="button"
-                        style={{ backgroundColor: "#232f3e" }}
-                        onClick={handleLogout}
-                      >
-                        LogOut
-                      </button>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </div>
+        </header>
+
+        {/* Navigation Bar */}
+        <nav className="header-nav">
+          <div className="container-xxl">
+            <div className="nav-content">
+              <button 
+                className="mobile-menu-toggle"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                <img src={menu} alt="menu" />
+              </button>
+              
+              <ul className={`nav-links ${mobileMenuOpen ? "open" : ""}`}>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/product">Shop</Link></li>
+                <li><Link to="/product">New Arrivals</Link></li>
+                <li><Link to="/product">Dresses</Link></li>
+                <li><Link to="/product">Ethnic Wear</Link></li>
+                <li><Link to="/product">Accessories</Link></li>
+                <li><Link to="/contact">Contact</Link></li>
+              </ul>
+
+              <div className="nav-extras">
+                <span className="extra-item">Track Order</span>
               </div>
             </div>
           </div>
-        </div>
-      </header>
+        </nav>
+      </div>
     </>
   );
 };
