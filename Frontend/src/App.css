@@ -63,12 +63,18 @@ a {
 .header-top-strip {
   border-bottom: 1px solid var(--color-3b4149);
   background-color: var(--color-131921);
+  position: relative;
+  z-index: 1000;
 }
 .header-upper {
   background-color: var(--color-131921);
+  position: relative;
+  z-index: 999;
 }
 .header-bottom {
   background-color: var(--color-232f3e);
+  position: relative;
+  z-index: 998;
 }
 .header-upper .input-group-text {
   background-color: var(--color-febd69);
@@ -184,6 +190,15 @@ footer .input-group-text {
 /* home wrapper 2 */
 .home-wrapper-2 {
   background-color: var(--color-f5f5f7);
+  position: relative;
+  z-index: 1;
+}
+
+/* Checkout page specific fix */
+.checkout-wrapper {
+  position: relative;
+  z-index: 1;
+  margin-top: 20px;
 }
 
 /* home wrapper 2 ends */

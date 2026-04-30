@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
+import { toast } from "react-toastify";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
@@ -100,33 +101,80 @@ const Checkout = () => {
   });
 
   // Handle Cash on Delivery order
-  const handleCODOrder = (shippingData) => {
+  const handleCODOrder = async (shippingData) => {
     setIsProcessing(true);
-    dispatch(
-      createAnOrder({
-        totalPrice: totalAmount,
-        totalPriceAfterDiscount: totalAmount,
-        orderItems: cartProductState,
-        paymentInfo: {
-          razorpayOrderId: "COD",
-          razorpayPaymentId: "COD",
-        },
-        paymentMethod: "cod",
-        paymentStatus: "pending",
-        shippingInfo: shippingData,
-      })
-    );
-    // Clear cart and reset state
-    dispatch(deleteUserCart(config2));
-    localStorage.removeItem("address");
-    dispatch(resetState());
-    setIsProcessing(false);
-    navigate("/my-orders");
+    
+    // Build order items from cartState directly
+    let orderItems = [];
+    for (let index = 0; index < cartState?.length; index++) {
+      orderItems.push({
+        product: cartState[index].productId._id,
+        quantity: cartState[index].quantity,
+        color: cartState[index].color._id,
+        price: cartState[index].price,
+      });
+    }
+
+    if (orderItems.length === 0) {
+      toast.error("Your cart is empty!");
+      setIsProcessing(false);
+      return;
+    }
+
+    try {
+      await dispatch(
+        createAnOrder({
+          totalPrice: totalAmount,
+          totalPriceAfterDiscount: totalAmount,
+          orderItems: orderItems,
+          paymentInfo: {
+            razorpayOrderId: "COD",
+            razorpayPaymentId: "COD",
+          },
+          paymentMethod: "cod",
+          paymentStatus: "pending",
+          shippingInfo: shippingData,
+        })
+      ).unwrap();
+      
+      // Clear cart and reset state after successful order
+      await dispatch(deleteUserCart(config2));
+      localStorage.removeItem("address");
+      dispatch(resetState());
+      setIsProcessing(false);
+      navigate("/my-orders");
+    } catch (error) {
+      console.error("Order error:", error);
+      toast.error("Failed to place order. Please try again.");
+      setIsProcessing(false);
+    }
   };
 
   // Handle Razorpay payment
   const handleRazorpayPayment = async (shippingData) => {
     setIsProcessing(true);
+    
+    // Wait for cartProductState to be populated
+    let orderItems = [...cartProductState];
+    
+    if (orderItems.length === 0) {
+      // Build order items from cartState directly
+      for (let index = 0; index < cartState?.length; index++) {
+        orderItems.push({
+          product: cartState[index].productId._id,
+          quantity: cartState[index].quantity,
+          color: cartState[index].color._id,
+          price: cartState[index].price,
+        });
+      }
+    }
+
+    if (orderItems.length === 0) {
+      toast.error("Your cart is empty!");
+      setIsProcessing(false);
+      return;
+    }
+    
     try {
       const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
       if (!res) {
@@ -172,18 +220,19 @@ const Checkout = () => {
           );
 
           // Create order with verified payment
-          dispatch(
+          await dispatch(
             createAnOrder({
               totalPrice: totalAmount,
               totalPriceAfterDiscount: totalAmount,
-              orderItems: cartProductState,
+              orderItems: orderItems,
               paymentInfo: verifyResult.data,
               paymentMethod: "razorpay",
               paymentStatus: "paid",
               shippingInfo: shippingData,
             })
-          );
-          dispatch(deleteUserCart(config2));
+          ).unwrap();
+          
+          await dispatch(deleteUserCart(config2));
           localStorage.removeItem("address");
           dispatch(resetState());
           setIsProcessing(false);
