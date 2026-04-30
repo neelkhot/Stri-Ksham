@@ -1,3 +1,6 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -13,6 +16,16 @@
   --color-ededed: #ededed;
   --color-777777: #777777;
   --color-1c1c1b: #1c1c1b;
+  
+  /* Premium Theme Colors */
+  --primary-dark: #1a1a1a;
+  --primary-gray: #2d2d2d;
+  --secondary-gray: #4a4a4a;
+  --light-gray: #8a8a8a;
+  --pale-gray: #e8e8e8;
+  --off-white: #f5f5f5;
+  --pure-white: #ffffff;
+  --accent-gold: #c9a962;
 }
 .section-heading {
   font-size: 26px;
@@ -20,6 +33,46 @@
   font-weight: 500;
   margin-bottom: 30px;
 }
+
+/* Premium Breadcrumb */
+.premium-breadcrumb {
+  background: #f5f5f5;
+  padding: 20px 0;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.breadcrumb-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.breadcrumb-link {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  color: #8a8a8a;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.breadcrumb-link:hover {
+  color: #1a1a1a;
+}
+
+.breadcrumb-separator {
+  font-size: 0.8rem;
+  color: #c9a962;
+}
+
+.breadcrumb-current {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  letter-spacing: 1px;
+}
+
 .card-wrapper {
   background-color: white;
   box-shadow: 0 0 10px #0000001a;
