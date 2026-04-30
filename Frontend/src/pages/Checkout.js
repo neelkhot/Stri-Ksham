@@ -34,6 +34,8 @@ const Checkout = () => {
     razorpayPaymentId: "",
     razorpayOrderId: "",
   });
+  const [paymentMethod, setPaymentMethod] = useState("cod"); // Default to COD
+  const [isProcessing, setIsProcessing] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -87,11 +89,124 @@ const Checkout = () => {
     onSubmit: (values) => {
       setShippingInfo(values);
       localStorage.setItem("address", JSON.stringify(values));
-      setTimeout(() => {
-        checkOutHandler();
-      }, 300);
+      if (paymentMethod === "cod") {
+        // For COD, place order directly
+        handleCODOrder(values);
+      } else {
+        // For Razorpay, initiate payment
+        handleRazorpayPayment(values);
+      }
     },
   });
+
+  // Handle Cash on Delivery order
+  const handleCODOrder = (shippingData) => {
+    setIsProcessing(true);
+    dispatch(
+      createAnOrder({
+        totalPrice: totalAmount,
+        totalPriceAfterDiscount: totalAmount,
+        orderItems: cartProductState,
+        paymentInfo: {
+          razorpayOrderId: "COD",
+          razorpayPaymentId: "COD",
+        },
+        paymentMethod: "cod",
+        paymentStatus: "pending",
+        shippingInfo: shippingData,
+      })
+    );
+    // Clear cart and reset state
+    dispatch(deleteUserCart(config2));
+    localStorage.removeItem("address");
+    dispatch(resetState());
+    setIsProcessing(false);
+    navigate("/my-orders");
+  };
+
+  // Handle Razorpay payment
+  const handleRazorpayPayment = async (shippingData) => {
+    setIsProcessing(true);
+    try {
+      const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+      if (!res) {
+        alert("Razorpay SDK failed to load");
+        setIsProcessing(false);
+        return;
+      }
+
+      // Create Razorpay order on backend
+      const result = await axios.post(
+        "http://localhost:5000/api/user/order/create-razorpay-order",
+        { amount: totalAmount + 100 },
+        config
+      );
+
+      if (!result) {
+        alert("Something went wrong in checkout handler");
+        setIsProcessing(false);
+        return;
+      }
+
+      const { amount, id: order_id, currency } = result.data.order;
+
+      const options = {
+        key: "rzp_test_HSSeDI22muUrLR", // Enter the Key ID from paymentCtrl
+        amount: amount,
+        currency: currency,
+        name: "Cart's corner",
+        description: "Test Transaction",
+        order_id: order_id,
+        handler: async function (response) {
+          const data = {
+            orderCreationId: order_id,
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpayOrderId: response.razorpay_order_id,
+          };
+
+          // Verify payment on backend
+          const verifyResult = await axios.post(
+            "http://localhost:5000/api/user/order/paymentVerification",
+            data,
+            config
+          );
+
+          // Create order with verified payment
+          dispatch(
+            createAnOrder({
+              totalPrice: totalAmount,
+              totalPriceAfterDiscount: totalAmount,
+              orderItems: cartProductState,
+              paymentInfo: verifyResult.data,
+              paymentMethod: "razorpay",
+              paymentStatus: "paid",
+              shippingInfo: shippingData,
+            })
+          );
+          dispatch(deleteUserCart(config2));
+          localStorage.removeItem("address");
+          dispatch(resetState());
+          setIsProcessing(false);
+          navigate("/my-orders");
+        },
+        prefill: {
+          name: `${shippingData.firstname} ${shippingData.lastname}`,
+          email: getTokenFromLocalStorage?.email || "",
+          contact: getTokenFromLocalStorage?.mobile || "",
+        },
+        theme: {
+          color: "#61dafb",
+        },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Payment failed. Please try again.");
+      setIsProcessing(false);
+    }
+  };
 
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -119,27 +234,6 @@ const Checkout = () => {
     }
     setCartProductState(items);
   }, []);
-
-  const checkOutHandler = async () => {
-  // Place order directly without Razorpay
-  dispatch(
-    createAnOrder({
-      totalPrice: totalAmount,
-      totalPriceAfterDiscount: totalAmount,
-      orderItems: cartProductState,
-      paymentInfo: {
-        razorpayOrderId: "N/A",    // dummy value
-        razorpayPaymentId: "N/A",   // dummy value
-      },// 👈 mark as unpaid
-      shippingInfo: JSON.parse(localStorage.getItem("address")),
-    })
-  );
-
-  // Clear cart and reset state
-  dispatch(deleteUserCart(config2));
-  localStorage.removeItem("address");
-  dispatch(resetState());
-};
 
 
   // const checkOutHandler = async () => {
@@ -380,17 +474,72 @@ const Checkout = () => {
                     {formik.touched.pincode && formik.errors.pincode}
                   </div>
                 </div>
+
+                {/* Payment Method Selection */}
+                <div className="w-100 mt-3">
+                  <h4 className="mb-3">Payment Method</h4>
+                  <div className="d-flex gap-15 flex-wrap">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="paymentMethod"
+                        id="cod"
+                        value="cod"
+                        checked={paymentMethod === "cod"}
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                      />
+                      <label className="form-check-label" htmlFor="cod">
+                        <div className="d-flex align-items-center gap-2">
+                          <span>💵 Cash on Delivery</span>
+                        </div>
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="paymentMethod"
+                        id="razorpay"
+                        value="razorpay"
+                        checked={paymentMethod === "razorpay"}
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                      />
+                      <label className="form-check-label" htmlFor="razorpay">
+                        <div className="d-flex align-items-center gap-2">
+                          <span>💳 Pay with Razorpay</span>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                  {paymentMethod === "cod" && (
+                    <p className="text-muted mt-2 small">
+                      Pay when you receive your order
+                    </p>
+                  )}
+                  {paymentMethod === "razorpay" && (
+                    <p className="text-muted mt-2 small">
+                      Secure payment via Razorpay
+                    </p>
+                  )}
+                </div>
+
                 <div className="w-100">
                   <div className="d-flex justify-content-between align-items-center">
                     <Link to="/cart" className="text-dark">
                       <BiArrowBack className="me-2" />
                       Return to Cart
                     </Link>
-                    <Link to="/cart" className="button">
-                      Continue to Shipping
-                    </Link>
-                    <button className="button" type="submit">
-                      Place Order
+                    <button 
+                      className="button" 
+                      type="submit"
+                      disabled={isProcessing}
+                    >
+                      {isProcessing 
+                        ? "Processing..." 
+                        : paymentMethod === "cod" 
+                          ? "Place Order (COD)" 
+                          : "Pay & Place Order"}
                     </button>
                   </div>
                 </div>
