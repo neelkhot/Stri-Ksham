@@ -247,7 +247,7 @@ const Checkout = () => {
 
   // Verify payment on backend
   const verifyResult = await axios.post(
-    `${base_url}/api/user/order/paymentVerification`,
+    `${base_url}user/order/paymentVerification`,
     data,
     config
   );
