@@ -199,7 +199,7 @@ const Checkout = () => {
       const { amount, id: order_id, currency } = result.data.order;
 
       const options = {
-        key: "rzp_test_HSSeDI22muUrLR", // Enter the Key ID from paymentCtrl
+        key: "rzp_test_Sk3RL8gKpEuL38", // Enter the Key ID from paymentCtrl
         amount: amount,
         currency: currency,
         name: "Cart's corner",
