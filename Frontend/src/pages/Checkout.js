@@ -185,7 +185,7 @@ const Checkout = () => {
 
       // Create Razorpay order on backend
       const result = await axios.post(
-        `${base_url}/user/order/create-razorpay-order`,
+        `${base_url}user/order/create-razorpay-order`,
         { amount: totalAmount + 100 },
         config
       );
@@ -214,7 +214,7 @@ const Checkout = () => {
 
           // Verify payment on backend
           const verifyResult = await axios.post(
-            `${base_url}/user/order/paymentVerification`,
+            `${base_url}user/order/paymentVerification`,
             data,
             config
           );
