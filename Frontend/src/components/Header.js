@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import compare from "../images/compare.svg";
 import wishlist from "../images/wishlist.svg";
@@ -17,24 +17,22 @@ const Header = () => {
   const cartState = useSelector((state) => state?.auth?.cartProducts);
   const authState = useSelector((state) => state?.auth);
   const [total, setTotal] = useState(null);
-  const [paginate, setPaginate] = useState(true);
+  const [paginate] = useState(true);
   const productState = useSelector((state) => state?.product?.product);
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const getTokenFromLocalStorage = localStorage.getItem("customer")
-    ? JSON.parse(localStorage.getItem("customer"))
-    : null;
+  const customerToken = localStorage.getItem("customer")
+    ? JSON.parse(localStorage.getItem("customer"))?.token
+    : "";
 
-  const config2 = {
+  const config2 = useMemo(() => ({
     headers: {
-      Authorization: `Bearer ${
-        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
-      }`,
+      Authorization: `Bearer ${customerToken}`,
       Accept: "application/json",
     },
-  };
+  }), [customerToken]);
 
   useEffect(() => {
     dispatch(getUserCart(config2));
@@ -45,7 +43,7 @@ const Header = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [config2, dispatch]);
 
   const [productOpt, setProductOpt] = useState([]);
   useEffect(() => {
@@ -99,9 +97,9 @@ const Header = () => {
         {/* Main Header */}
         <header className="header-main">
           <div className="container-xxl">
-            <div className="row align-items-center">
+            <div className="header-main-row">
               {/* Logo */}
-              <div className="col-2">
+              <div className="header-brand-col">
                 <Link className="brand-logo" to="/">
                   <span className="logo-text">SHREE</span>
                   <span className="logo-sub">FASHION</span>
@@ -109,7 +107,7 @@ const Header = () => {
               </div>
 
               {/* Search Bar */}
-              <div className="col-5">
+              <div className="header-search-col">
                 <div className="premium-search">
                   <Typeahead
                     id="pagination-example"
@@ -131,7 +129,7 @@ const Header = () => {
               </div>
 
               {/* Action Icons */}
-              <div className="col-5">
+              <div className="header-actions-col">
                 <div className="header-actions">
                   <Link to="/compare-product" className="action-item">
                     <div className="icon-wrapper">

@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
-import ReactStars from "react-rating-stars-component";
 import ProductCard from "../components/ProductCard";
-import Color from "../components/Color";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../features/products/productSlilce";
-import { Link } from "react-router-dom";
 import "./OurStore.css";
 
 const OurStore = () => {
@@ -44,14 +41,15 @@ const OurStore = () => {
   }, [productState]);
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    getProducts();
-  }, [sort, tag, brand, category, minPrice, maxPrice]);
-  const getProducts = () => {
+  const getProducts = useCallback(() => {
     dispatch(
       getAllProducts({ sort, tag, brand, category, minPrice, maxPrice })
     );
-  };
+  }, [brand, category, dispatch, maxPrice, minPrice, sort, tag]);
+
+  useEffect(() => {
+    getProducts();
+  }, [getProducts]);
 
   const clearFilters = () => {
     setTag(null);
