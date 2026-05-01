@@ -492,13 +492,14 @@ const Home = () => {
   const productState = useSelector((state) => state?.product?.product);
 
   useEffect(() => {
+    const ctx = gsap.context(() => {
     // Page load transition
     setTimeout(() => setIsLoaded(true), 100);
 
     dispatch(getAllProducts());
 
     // Hero Content Animation (on load)
-    gsap.fromTo(heroRef.current.querySelector(".hero-content > *"), 
+    gsap.fromTo(heroRef.current.querySelectorAll(".hero-content > *"), 
       { opacity: 0, y: 60 },
       { 
         opacity: 1, 
@@ -512,7 +513,7 @@ const Home = () => {
 
     // Multi-layer Parallax Effect
     gsap.to(".parallax-layer-1", {
-      yPercent: 50,
+      yPercent: 18,
       ease: "none",
       scrollTrigger: {
         trigger: heroRef.current,
@@ -523,7 +524,7 @@ const Home = () => {
     });
 
     gsap.to(".parallax-layer-2", {
-      yPercent: 30,
+      yPercent: 42,
       ease: "none",
       scrollTrigger: {
         trigger: heroRef.current,
@@ -534,7 +535,18 @@ const Home = () => {
     });
 
     gsap.to(".parallax-layer-3", {
-      yPercent: 15,
+      yPercent: 68,
+      ease: "none",
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    gsap.to(".hero-foreground-card", {
+      yPercent: 120,
       ease: "none",
       scrollTrigger: {
         trigger: heroRef.current,
@@ -625,6 +637,9 @@ const Home = () => {
     );
 
     setTimeout(() => ScrollTrigger.refresh(), 500);
+    }, heroRef);
+
+    return () => ctx.revert();
   }, [dispatch]);
 
   const categories = [
@@ -656,11 +671,19 @@ const Home = () => {
 
         {/* Layer 2 - Mid background */}
         <div className="parallax-layer parallax-layer-2">
-          <img src="/images/123.jpg" alt="hero background" className="layer-image" />
+          <img src="/images/123.jpg" alt="fashion collection hero" className="layer-image" />
+          <img src="/images/main-banner.jpg" alt="" className="hero-depth-image hero-depth-left" />
+          <img src="/images/catbanner-01.jpg" alt="" className="hero-depth-image hero-depth-right" />
         </div>
 
         {/* Layer 3 - Closer (faster) - Floating elements */}
         <div className="parallax-layer parallax-layer-3">
+          <div className="hero-foreground-card hero-foreground-left">
+            <img src="/images/catbanner-02.jpg" alt="" />
+          </div>
+          <div className="hero-foreground-card hero-foreground-right">
+            <img src="/images/main-banner-1.jpg" alt="" />
+          </div>
           <div className="floating-element" style={{ top: '15%', left: '10%' }}>✦</div>
           <div className="floating-element" style={{ top: '25%', left: '85%' }}>◇</div>
           <div className="floating-element" style={{ top: '60%', left: '5%' }}>○</div>

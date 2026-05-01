@@ -150,6 +150,30 @@
   height: 120%;
   object-fit: cover;
   top: -10%;
+  filter: saturate(0.9) contrast(1.02);
+  transform: scale(1.04);
+}
+
+.hero-depth-image {
+  position: absolute;
+  width: min(28vw, 360px);
+  height: min(42vh, 440px);
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  opacity: 0.42;
+}
+
+.hero-depth-left {
+  left: 6vw;
+  top: 20vh;
+  transform: rotate(-5deg);
+}
+
+.hero-depth-right {
+  right: 7vw;
+  top: 16vh;
+  transform: rotate(4deg);
 }
 
 /* Layer 3 - Floating Elements */
@@ -159,6 +183,32 @@
   color: var(--accent-gold);
   opacity: 0.4;
   pointer-events: none;
+}
+
+.hero-foreground-card {
+  position: absolute;
+  width: min(18vw, 230px);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 1px solid rgba(201, 169, 98, 0.45);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+  opacity: 0.74;
+}
+
+.hero-foreground-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-foreground-left {
+  left: 9vw;
+  bottom: 11vh;
+}
+
+.hero-foreground-right {
+  right: 10vw;
+  bottom: 14vh;
 }
 
 .hero-overlay {
@@ -918,6 +968,11 @@
   .hero-buttons {
     flex-direction: column;
     align-items: center;
+  }
+
+  .hero-depth-image,
+  .hero-foreground-card {
+    display: none;
   }
   
   .hero-btn {

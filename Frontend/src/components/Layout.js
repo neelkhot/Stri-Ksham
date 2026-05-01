@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Footer from "./Footer";
 import Header from "./Header";
 
@@ -7,10 +7,14 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Layout = () => {
+  const location = useLocation();
+
   return (
     <>
       <Header />
-      <Outlet />
+      <main key={location.pathname} className="page-transition">
+        <Outlet />
+      </main>
       <Footer />
       <ToastContainer
         position="top-right"
