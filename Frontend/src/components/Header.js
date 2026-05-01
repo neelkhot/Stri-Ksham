@@ -154,21 +154,40 @@ const Header = () => {
                     </div>
                   </Link>
                   
-                  <Link to={authState?.user === null ? "/login" : "/my-profile"} className="action-item">
-                    <div className="icon-wrapper user-icon">
-                      <img src={user} alt="user" />
-                    </div>
-                    <div className="action-label">
-                      {authState?.user === null ? (
-                        <>
-                          <span className="action-title">Sign In</span>
+                  {authState?.user !== null ? (
+                    <div className="user-dropdown">
+                      <Link to="/my-profile" className="action-item">
+                        <div className="icon-wrapper user-icon">
+                          <img src={user} alt="user" />
+                        </div>
+                        <div className="action-label">
+                          <span className="action-title">Welcome, {authState?.user?.firstname}</span>
                           <span className="action-sub">Account</span>
-                        </>
-                      ) : (
-                        <span className="action-title">Welcome, {authState?.user?.firstname}</span>
-                      )}
+                        </div>
+                      </Link>
+                      <div className="dropdown-menu">
+                        <Link to="/my-profile" className="dropdown-item">
+                          My Profile
+                        </Link>
+                        <Link to="/my-orders" className="dropdown-item">
+                          My Orders
+                        </Link>
+                        <button onClick={handleLogout} className="dropdown-item logout-item">
+                          Logout
+                        </button>
+                      </div>
                     </div>
-                  </Link>
+                  ) : (
+                    <Link to="/login" className="action-item">
+                      <div className="icon-wrapper user-icon">
+                        <img src={user} alt="user" />
+                      </div>
+                      <div className="action-label">
+                        <span className="action-title">Sign In</span>
+                        <span className="action-sub">Account</span>
+                      </div>
+                    </Link>
+                  )}
                   
                   <Link to="/cart" className="action-item cart-item">
                     <div className="icon-wrapper">
