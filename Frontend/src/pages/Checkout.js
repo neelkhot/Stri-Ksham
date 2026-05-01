@@ -205,39 +205,72 @@ const Checkout = () => {
         name: "Cart's corner",
         description: "Test Transaction",
         order_id: order_id,
-        handler: async function (response) {
-          const data = {
-            orderCreationId: order_id,
-            razorpayPaymentId: response.razorpay_payment_id,
-            razorpayOrderId: response.razorpay_order_id,
-          };
+        // handler: async function (response) {
+        //   const data = {
+        //     orderCreationId: order_id,
+        //     razorpayPaymentId: response.razorpay_payment_id,
+        //     razorpayOrderId: response.razorpay_order_id,
+        //   };
 
-          // Verify payment on backend
-          const verifyResult = await axios.post(
-            `${base_url}user/order/paymentVerification`,
-            data,
-            config
-          );
+        //   // Verify payment on backend
+        //   const verifyResult = await axios.post(
+        //     `${base_url}user/order/paymentVerification`,
+        //     data,
+        //     config
+        //   );
 
-          // Create order with verified payment
-          await dispatch(
-            createAnOrder({
-              totalPrice: totalAmount,
-              totalPriceAfterDiscount: totalAmount,
-              orderItems: orderItems,
-              paymentInfo: verifyResult.data,
-              paymentMethod: "razorpay",
-              paymentStatus: "paid",
-              shippingInfo: shippingData,
-            })
-          ).unwrap();
+        //   // Create order with verified payment
+        //   await dispatch(
+        //     createAnOrder({
+        //       totalPrice: totalAmount,
+        //       totalPriceAfterDiscount: totalAmount,
+        //       orderItems: orderItems,
+        //       paymentInfo: verifyResult.data,
+        //       paymentMethod: "razorpay",
+        //       paymentStatus: "paid",
+        //       shippingInfo: shippingData,
+        //     })
+        //   ).unwrap();
           
-          await dispatch(deleteUserCart(config2));
-          localStorage.removeItem("address");
-          dispatch(resetState());
-          setIsProcessing(false);
-          navigate("/my-orders");
-        },
+        //   await dispatch(deleteUserCart(config2));
+        //   localStorage.removeItem("address");
+        //   dispatch(resetState());
+        //   setIsProcessing(false);
+        //   navigate("/my-orders");
+        // }
+        handler: async function (response) {
+  const data = {
+    razorpayOrderId: response.razorpay_order_id,
+    razorpayPaymentId: response.razorpay_payment_id,
+    razorpaySignature: response.razorpay_signature,
+  };
+
+  // Verify payment on backend
+  const verifyResult = await axios.post(
+    `${base_url}/api/user/order/paymentVerification`,
+    data,
+    config
+  );
+
+  // Create order after verification
+  await dispatch(
+    createAnOrder({
+      totalPrice: totalAmount,
+      totalPriceAfterDiscount: totalAmount,
+      orderItems: orderItems,
+      paymentInfo: verifyResult.data,
+      paymentMethod: "razorpay",
+      paymentStatus: "paid",
+      shippingInfo: shippingData,
+    })
+  ).unwrap();
+
+  await dispatch(deleteUserCart(config2));
+  localStorage.removeItem("address");
+  dispatch(resetState());
+  setIsProcessing(false);
+  navigate("/my-orders");
+},
         prefill: {
           name: `${shippingData.firstname} ${shippingData.lastname}`,
           email: getTokenFromLocalStorage?.email || "",
