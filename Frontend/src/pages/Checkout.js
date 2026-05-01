@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
-import { config } from "../utils/axiosConfig";
+import { base_url, config } from "../utils/axiosConfig";
 import {
   createAnOrder,
   deleteUserCart,
@@ -185,7 +185,7 @@ const Checkout = () => {
 
       // Create Razorpay order on backend
       const result = await axios.post(
-        "http://localhost:5000/api/user/order/create-razorpay-order",
+        `${base_url}/api/user/order/create-razorpay-order`,
         { amount: totalAmount + 100 },
         config
       );
@@ -214,7 +214,7 @@ const Checkout = () => {
 
           // Verify payment on backend
           const verifyResult = await axios.post(
-            "http://localhost:5000/api/user/order/paymentVerification",
+            `${base_url}/api/user/order/paymentVerification`,
             data,
             config
           );
