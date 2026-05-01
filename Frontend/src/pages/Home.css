@@ -18,7 +18,7 @@
 /* Reset & Base */
 .home-page {
   font-family: 'Playfair Display', 'Georgia', serif;
-  background: var(--pure-white);
+  background: transparent;
   color: var(--primary-dark);
   overflow-x: hidden;
   opacity: 0;
@@ -95,8 +95,8 @@
    ======================================== */
 .hero-section {
   position: relative;
-  height: 100vh;
-  min-height: 700px;
+  height: calc(100vh - 116px);
+  min-height: 580px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -128,9 +128,9 @@
   inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(26, 26, 26, 0.95) 0%,
-    rgba(45, 45, 45, 0.9) 50%,
-    rgba(26, 26, 26, 0.95) 100%
+    rgba(26, 26, 26, 0.76) 0%,
+    rgba(45, 45, 45, 0.48) 50%,
+    rgba(26, 26, 26, 0.72) 100%
   );
 }
 
@@ -138,77 +138,71 @@
   position: absolute;
   inset: 0;
   background-image: 
-    radial-gradient(circle at 25% 25%, rgba(201, 169, 98, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(201, 169, 98, 0.03) 0%, transparent 50%);
-  background-size: 60px 60px;
+    radial-gradient(circle at 25% 25%, rgba(201, 169, 98, 0.16) 0%, transparent 42%),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.12) 0%, transparent 44%);
+  background-size: 86px 86px;
+  opacity: 0.95;
 }
 
 /* Layer 2 - Background Image */
 .layer-image {
   position: absolute;
   width: 100%;
-  height: 120%;
+  height: 100%;
   object-fit: cover;
-  top: -10%;
+  object-position: center top;
+  top: 0;
   filter: saturate(0.9) contrast(1.02);
-  transform: scale(1.04);
-}
-
-.hero-depth-image {
-  position: absolute;
-  width: min(28vw, 360px);
-  height: min(42vh, 440px);
-  object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
-  opacity: 0.42;
-}
-
-.hero-depth-left {
-  left: 6vw;
-  top: 20vh;
-  transform: rotate(-5deg);
-}
-
-.hero-depth-right {
-  right: 7vw;
-  top: 16vh;
-  transform: rotate(4deg);
+  transform: scale(1.01);
 }
 
 /* Layer 3 - Floating Elements */
 .floating-element {
   position: absolute;
-  font-size: 1.5rem;
+  font-size: clamp(1.6rem, 3vw, 3rem);
   color: var(--accent-gold);
-  opacity: 0.4;
+  opacity: 0.82;
+  text-shadow: 0 0 22px rgba(201, 169, 98, 0.65);
   pointer-events: none;
 }
 
-.hero-foreground-card {
+.hero-text-ribbon {
   position: absolute;
-  width: min(18vw, 230px);
-  aspect-ratio: 3 / 4;
+  left: -8vw;
+  right: -8vw;
+  z-index: 2;
   overflow: hidden;
-  border: 1px solid rgba(201, 169, 98, 0.45);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
-  opacity: 0.74;
+  pointer-events: none;
+  opacity: 0.78;
 }
 
-.hero-foreground-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.ribbon-top {
+  top: 18%;
+  transform: rotate(-4deg);
 }
 
-.hero-foreground-left {
-  left: 9vw;
-  bottom: 11vh;
+.ribbon-bottom {
+  bottom: 14%;
+  transform: rotate(4deg);
 }
 
-.hero-foreground-right {
-  right: 10vw;
-  bottom: 14vh;
+.hero-marquee-line {
+  display: flex;
+  width: max-content;
+  gap: clamp(28px, 5vw, 80px);
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.hero-marquee-line span {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(2.4rem, 8vw, 7.5rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.4px rgba(255, 255, 255, 0.68);
+  text-shadow: 0 0 34px rgba(201, 169, 98, 0.2);
 }
 
 .hero-overlay {
@@ -217,9 +211,9 @@
   z-index: 4;
   background: linear-gradient(
     180deg,
-    rgba(26, 26, 26, 0.2) 0%,
-    rgba(26, 26, 26, 0.4) 50%,
-    rgba(26, 26, 26, 0.6) 100%
+    rgba(26, 26, 26, 0.14) 0%,
+    rgba(26, 26, 26, 0.32) 52%,
+    rgba(26, 26, 26, 0.56) 100%
   );
 }
 
@@ -421,7 +415,8 @@
    ======================================== */
 .category-section {
   padding: 100px 5%;
-  background: var(--pure-white);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
 }
 
 .category-grid {
@@ -563,7 +558,8 @@
    ======================================== */
 .product-section {
   padding: 100px 5%;
-  background: var(--off-white);
+  background: rgba(245, 245, 245, 0.68);
+  backdrop-filter: blur(12px);
 }
 
 .product-grid {
@@ -574,7 +570,8 @@
 
 .premium-card {
   position: relative;
-  background: var(--pure-white);
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(10px);
   overflow: hidden;
   cursor: pointer;
   transform-style: preserve-3d;
@@ -734,7 +731,8 @@
    ======================================== */
 .value-section {
   padding: 80px 5%;
-  background: var(--pure-white);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
 }
 
 .value-grid {
@@ -779,7 +777,8 @@
    ======================================== */
 .newsletter-section {
   padding: 100px 5%;
-  background: var(--off-white);
+  background: rgba(245, 245, 245, 0.68);
+  backdrop-filter: blur(12px);
 }
 
 .newsletter-content {
@@ -957,8 +956,8 @@
 
 @media (max-width: 768px) {
   .hero-section {
-    height: 80vh;
-    min-height: 500px;
+    height: calc(100vh - 108px);
+    min-height: 480px;
   }
   
   .hero-content h1 {
@@ -970,9 +969,13 @@
     align-items: center;
   }
 
-  .hero-depth-image,
-  .hero-foreground-card {
-    display: none;
+  .hero-text-ribbon {
+    opacity: 0.42;
+  }
+
+  .hero-marquee-line span {
+    font-size: 3.2rem;
+    -webkit-text-stroke-width: 1px;
   }
   
   .hero-btn {

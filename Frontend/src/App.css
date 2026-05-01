@@ -26,6 +26,14 @@
   --off-white: #f5f5f5;
   --pure-white: #ffffff;
   --accent-gold: #c9a962;
+  --site-glass-light: rgba(255, 255, 255, 0.78);
+  --site-glass-strong: rgba(255, 255, 255, 0.9);
+  --site-glass-dark: rgba(19, 25, 33, 0.78);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 118px;
 }
 .section-heading {
   font-size: 26px;
@@ -74,12 +82,37 @@
 }
 
 .card-wrapper {
-  background-color: white;
+  background: var(--site-glass-strong);
+  backdrop-filter: blur(12px);
   box-shadow: 0 0 10px #0000001a;
   padding: 15px;
 }
 body {
   font-family: "Rubik", sans-serif;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(201, 169, 98, 0.26), transparent 28%),
+    radial-gradient(circle at 88% 18%, rgba(78, 135, 164, 0.22), transparent 30%),
+    radial-gradient(circle at 50% 96%, rgba(219, 202, 170, 0.28), transparent 35%),
+    linear-gradient(135deg, #f7f2e8 0%, #eef4f8 38%, #f8f6f1 72%, #ece7db 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  background: transparent;
+}
+
+#smooth-wrapper {
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+#smooth-content {
+  min-height: 100vh;
+  padding-top: 116px;
+  will-change: transform;
 }
 a {
   text-decoration: none;
@@ -131,6 +164,14 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  #smooth-content {
+    transform: none !important;
+  }
+
   .page-transition {
     animation: none;
   }
@@ -266,7 +307,8 @@ footer .input-group-text {
 
 /* home wrapper 2 */
 .home-wrapper-2 {
-  background-color: var(--color-f5f5f7);
+  background: rgba(245, 245, 247, 0.76);
+  backdrop-filter: blur(14px);
   position: relative;
   z-index: 1;
 }
@@ -283,7 +325,8 @@ footer .input-group-text {
 /* categories section */
 
 .categories {
-  background-color: white;
+  background: var(--site-glass-strong);
+  backdrop-filter: blur(12px);
   box-shadow: 0 0 10px #0000001a;
   padding: 15px;
 }
@@ -365,7 +408,8 @@ footer .input-group-text {
 
 .product-card {
   padding: 15px;
-  background-color: white;
+  background: var(--site-glass-strong);
+  backdrop-filter: blur(12px);
   border-radius: 10px;
   overflow: hidden;
   width: 100%;
@@ -421,7 +465,8 @@ footer .input-group-text {
 .special-product-card {
   padding: 20px 10px;
   border-radius: 10px;
-  background-color: white;
+  background: var(--site-glass-strong);
+  backdrop-filter: blur(12px);
 }
 
 /* Special Product ends here */
@@ -459,7 +504,8 @@ footer .input-group-text {
 
 /* Our Store */
 .filter-card {
-  background-color: white;
+  background: var(--site-glass-strong);
+  backdrop-filter: blur(12px);
   border-radius: 10px;
   padding: 15px 15px 25px;
 }
@@ -569,7 +615,8 @@ footer .input-group-text {
 .contact-inner-wrapper {
   padding: 30px 20px;
   border-radius: 15px;
-  background-color: white;
+  background: var(--site-glass-strong);
+  backdrop-filter: blur(12px);
   gap: 15px;
 }
 .contact-inner-wrapper > div {
@@ -601,7 +648,8 @@ footer .input-group-text {
 
 .compare-product-card {
   padding: 20px 15px;
-  background-color: white;
+  background: var(--site-glass-strong);
+  backdrop-filter: blur(12px);
   border-radius: 10px;
 }
 .compare-product-card .cross,
@@ -638,7 +686,8 @@ footer .input-group-text {
 
 .auth-card {
   padding: 20px;
-  background-color: white;
+  background: var(--site-glass-strong);
+  backdrop-filter: blur(12px);
   width: 500px;
   margin: 30px auto;
   border-radius: 10px;
@@ -679,7 +728,8 @@ footer .input-group-text {
 /* Policy Pages */
 
 .policy {
-  background-color: white;
+  background: var(--site-glass-strong);
+  backdrop-filter: blur(12px);
   padding: 30px;
 }
 /* Policy Pages  ends */
@@ -698,7 +748,8 @@ footer .input-group-text {
 }
 
 .review-inner-wrapper {
-  background-color: white;
+  background: var(--site-glass-strong);
+  backdrop-filter: blur(12px);
   padding: 30px;
 }
 .review-head {
@@ -731,7 +782,8 @@ footer .input-group-text {
 
 .main-product-image {
   padding: 20px;
-  background-color: white;
+  background: var(--site-glass-strong);
+  backdrop-filter: blur(12px);
   border-radius: 10px;
 }
 .main-product-image > div {
@@ -743,7 +795,8 @@ footer .input-group-text {
   object-fit: cover;
 }
 .other-product-images {
-  background-color: white;
+  background: var(--site-glass-strong);
+  backdrop-filter: blur(12px);
   padding: 20px;
 }
 .other-product-images > div {
@@ -760,7 +813,8 @@ footer .input-group-text {
 }
 .main-product-details {
   padding: 30px 20px;
-  background-color: white;
+  background: var(--site-glass-strong);
+  backdrop-filter: blur(12px);
   border-radius: 10px;
 }
 .border-bottom {
@@ -855,7 +909,8 @@ footer .input-group-text {
   width: 100%;
   padding: 15px;
   margin: 15px auto;
-  background-color: #fff;
+  background: var(--site-glass-strong);
+  backdrop-filter: blur(12px);
   overflow: hidden;
   position: relative;
   transition: all 0.3s ease;
@@ -975,24 +1030,16 @@ footer .input-group-text {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: #1a1a1a;
+  background: rgba(26, 26, 26, 0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .premium-header.scrolled {
-  background: rgba(26, 26, 26, 0.98);
+  background: rgba(26, 26, 26, 0.86);
   box-shadow: 0 2px 30px rgba(0, 0, 0, 0.3);
-}
-
-/* Fix header overlap - add padding to body */
-body {
-  padding-top: 154px;
-}
-
-@media (max-width: 768px) {
-  body {
-    padding-top: 160px;
-  }
 }
 
 /* Logout Button */
@@ -1067,8 +1114,8 @@ body {
 
 /* Top Bar */
 .header-top-bar {
-  background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
-  padding: 8px 0;
+  background: linear-gradient(90deg, rgba(26, 26, 26, 0.58) 0%, rgba(45, 45, 45, 0.62) 50%, rgba(26, 26, 26, 0.58) 100%);
+  padding: 5px 0;
   border-bottom: 1px solid rgba(201, 169, 98, 0.2);
 }
 
@@ -1077,6 +1124,7 @@ body {
   font-size: 0.75rem;
   color: #8a8a8a;
   letter-spacing: 1px;
+  margin-bottom: 0;
 }
 
 .top-bar-text .highlight {
@@ -1097,8 +1145,8 @@ body {
 
 /* Main Header */
 .header-main {
-  padding: 14px 0;
-  background: #1a1a1a;
+  padding: 8px 0;
+  background: rgba(26, 26, 26, 0.42);
 }
 
 .header-main-row {
@@ -1154,7 +1202,7 @@ body {
 
 .premium-search .search-input {
   width: 100%;
-  padding: 14px 20px;
+  padding: 10px 18px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 0;
@@ -1218,8 +1266,8 @@ body {
 
 .icon-wrapper {
   position: relative;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1229,8 +1277,8 @@ body {
 }
 
 .icon-wrapper img {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   filter: invert(1);
 }
 
@@ -1289,7 +1337,7 @@ body {
 
 /* Navigation */
 .header-nav {
-  background: #232f3e;
+  background: rgba(35, 47, 62, 0.6);
   padding: 0;
 }
 
@@ -1326,9 +1374,9 @@ body {
 
 .nav-links a {
   display: block;
-  padding: 14px 18px;
+  padding: 7px 14px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   font-weight: 500;
   color: #fff;
   text-decoration: none;
@@ -1660,8 +1708,8 @@ a.contact-value:hover {
 
 /* Responsive */
 @media (max-width: 992px) {
-  body {
-    padding-top: 145px;
+  #smooth-content {
+    padding-top: 108px;
   }
 
   .header-main-row {
@@ -1780,7 +1828,7 @@ a.contact-value:hover {
   }
 
   .header-main {
-    padding: 12px 0;
+    padding: 9px 0;
   }
 
   .header-main-row {
@@ -1812,7 +1860,7 @@ a.contact-value:hover {
   }
 
   .premium-search .search-input {
-    padding: 11px 54px 11px 14px;
+    padding: 9px 52px 9px 14px;
   }
 
   .search-btn {
@@ -1829,7 +1877,7 @@ a.contact-value:hover {
   }
 
   .mobile-menu-toggle {
-    padding: 9px 0;
+    padding: 7px 0;
   }
 
   .nav-extras {
@@ -1861,8 +1909,8 @@ a.contact-value:hover {
 }
 
 @media (max-width: 576px) {
-  body {
-    padding-top: 138px;
+  #smooth-content {
+    padding-top: 114px;
   }
 
   .brand-logo {
@@ -1892,7 +1940,7 @@ a.contact-value:hover {
   }
 
   .nav-links a {
-    padding: 12px 0;
+    padding: 10px 0;
   }
 
   .gr-3,
