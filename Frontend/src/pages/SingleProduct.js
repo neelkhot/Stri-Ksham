@@ -3,14 +3,10 @@ import ReactStars from "react-rating-stars-component";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 import ProductCard from "../components/ProductCard";
-import ReactImageZoom from "react-image-zoom";
 import Color from "../components/Color";
-import { TbGitCompare } from "react-icons/tb";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import watch from "../images/watch.jpg";
+import { useLocation, useNavigate } from "react-router-dom";
 import Container from "../components/Container";
-import { addToWishlist } from "../features/products/productSlilce";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addRating,
@@ -32,23 +28,31 @@ const SingleProduct = () => {
   const productState = useSelector((state) => state?.product?.singleproduct);
   const productsState = useSelector((state) => state?.product?.product);
   const cartState = useSelector((state) => state?.auth?.cartProducts);
-  const rat = productState?.totalrating;
   const wishlistState = useSelector((state) => state?.auth?.wishlist?.wishlist);
+  const productImages = productState?.images || [];
+  const fallbackImage =
+    "https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=900";
+  const [selectedImage, setSelectedImage] = useState(fallbackImage);
   console.log(wishlistState);
 
   useEffect(() => {
     dispatch(getAProduct(getProductId));
     dispatch(getUserCart());
     dispatch(getAllProducts());
-  }, []);
+  }, [dispatch, getProductId]);
 
   useEffect(() => {
+    setSelectedImage(productState?.images?.[0]?.url || fallbackImage);
+  }, [productState, fallbackImage]);
+
+  useEffect(() => {
+    setAlreadyAdded(false);
     for (let index = 0; index < cartState?.length; index++) {
       if (getProductId === cartState[index]?.productId?._id) {
         setAlreadyAdded(true);
       }
     }
-  });
+  }, [cartState, getProductId]);
 
   const uploadCart = () => {
     if (color === null) {
@@ -65,17 +69,7 @@ const SingleProduct = () => {
       );
     }
   };
-  const props = {
-    width: 594,
-    height: 600,
-    zoomWidth: 600,
-
-    img: productState?.images[0].url
-      ? productState?.images[0].url
-      : "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg",
-  };
-
-  const [orderedProduct, setorderedProduct] = useState(true);
+  const orderedProduct = true;
   const copyToClipboard = (text) => {
     console.log("text", text);
     var textField = document.createElement("textarea");
@@ -86,24 +80,21 @@ const SingleProduct = () => {
     textField.remove();
   };
 
-  const closeModal = () => {};
   const [popularProduct, setPopularProduct] = useState([]);
 
   useEffect(() => {
     let data = [];
-    for (let index = 0; index < productsState.length; index++) {
+    for (let index = 0; index < productsState?.length; index++) {
       const element = productsState[index];
       if (element.tags === "popular") {
         data.push(element);
-      } else {
-        setPopularProduct(data);
       }
     }
-  }, [productState]);
+    setPopularProduct(data);
+  }, [productsState]);
 
   const [star, setStar] = useState(null);
   const [comment, setComment] = useState(null);
-  const [like, setLike] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
   const handleToggle = () => {
@@ -133,24 +124,29 @@ const SingleProduct = () => {
       <Meta title={"Product Name"} />
       <BreadCrumb title={productState?.title} />
       <Container class1="main-product-wrapper py-5 home-wrapper-2">
-        <div className="row">
-          <div className="col-6">
+        <div className="product-view-grid">
+          <div className="product-gallery-panel">
             <div className="main-product-image">
-              <div>
-                <ReactImageZoom {...props} />
+              <div className="main-product-image-frame">
+                <img src={selectedImage} alt={productState?.title || "Product"} />
               </div>
             </div>
-            <div className="other-product-images d-flex flex-wrap gap-15">
-              {productState?.images.map((item, index) => {
+            <div className="other-product-images">
+              {(productImages.length ? productImages : [{ url: fallbackImage }]).map((item, index) => {
                 return (
-                  <div>
-                    <img src={item?.url} className="img-fluid" alt="" />
-                  </div>
+                  <button
+                    key={index}
+                    className={`product-thumb ${selectedImage === item?.url ? "active" : ""}`}
+                    type="button"
+                    onClick={() => setSelectedImage(item?.url || fallbackImage)}
+                  >
+                    <img src={item?.url || fallbackImage} alt={`${productState?.title || "Product"} ${index + 1}`} />
+                  </button>
                 );
               })}
             </div>
           </div>
-          <div className="col-6">
+          <div className="product-info-panel">
             <div className="main-product-details">
               <div className="border-bottom">
                 <h3 className="title">{productState?.title}</h3>
@@ -224,15 +220,12 @@ const SingleProduct = () => {
                 <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
                   <h3 className="product-heading">Quantity :</h3>
                   {alreadyAdded === false && (
-                    <div className="">
+                    <div>
                       <input
                         type="number"
-                        name=""
                         min={1}
                         max={10}
                         className="form-control"
-                        style={{ width: "70px" }}
-                        id=""
                         onChange={(e) => setQuantity(e.target.value)}
                         value={quantity}
                       />
@@ -242,7 +235,7 @@ const SingleProduct = () => {
                     className={
                       alreadyAdded
                         ? "ms-0"
-                        : "ms-5" + "d-flex align-items-center gap-30"
+                        : "ms-5 d-flex align-items-center gap-30"
                     }
                   >
                     <button
@@ -289,14 +282,15 @@ const SingleProduct = () => {
                 </div>
                 <div className="d-flex gap-10 align-items-center my-3">
                   <h3 className="product-heading">Product Link:</h3>
-                  <a
-                    href="javascript:void(0);"
+                  <button
+                    type="button"
+                    className="copy-link-btn"
                     onClick={() => {
                       copyToClipboard(window.location.href);
                     }}
                   >
                     Copy Product Link
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -307,7 +301,7 @@ const SingleProduct = () => {
         <div className="row">
           <div className="col-12">
             <h4>Description</h4>
-            <div className="bg-white p-3">
+            <div className="product-description-card">
               <p
                 dangerouslySetInnerHTML={{ __html: productState?.description }}
               ></p>

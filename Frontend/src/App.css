@@ -2014,6 +2014,180 @@ a.contact-value:hover {
 /* ========================================
    GLOBAL LIQUID GLASS REFINEMENTS
    ======================================== */
+.main-product-wrapper,
+.description-wrapper,
+.reviews-wrapper,
+.popular-wrapper {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(201, 169, 98, 0.16), transparent 30%),
+    radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.74), transparent 28%),
+    linear-gradient(135deg, rgba(248, 245, 239, 0.82), rgba(238, 243, 245, 0.72) 46%, rgba(234, 227, 213, 0.82));
+}
+
+.main-product-wrapper .container-xxl,
+.description-wrapper .container-xxl,
+.reviews-wrapper .container-xxl,
+.popular-wrapper .container-xxl {
+  width: 100%;
+  max-width: 100%;
+  padding-left: clamp(14px, 3vw, 46px);
+  padding-right: clamp(14px, 3vw, 46px);
+}
+
+.product-view-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+  gap: clamp(22px, 4vw, 54px);
+  align-items: start;
+}
+
+.product-gallery-panel,
+.product-info-panel {
+  min-width: 0;
+}
+
+.main-product-image {
+  padding: clamp(12px, 2vw, 22px);
+  border-radius: var(--glass-radius-lg);
+}
+
+.main-product-image > div,
+.main-product-image-frame {
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: calc(var(--glass-radius-lg) - 10px);
+  background:
+    radial-gradient(circle at 20% 12%, rgba(201, 169, 98, 0.12), transparent 34%),
+    rgba(255, 255, 255, 0.32);
+  overflow: hidden;
+}
+
+.main-product-image-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 5;
+}
+
+.main-product-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  padding: clamp(8px, 2vw, 18px);
+}
+
+.other-product-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
+  gap: clamp(10px, 1.6vw, 16px);
+  margin-top: clamp(14px, 2vw, 22px);
+  padding: clamp(12px, 2vw, 18px);
+  border-radius: var(--glass-radius-lg);
+}
+
+.other-product-images > div {
+  width: auto;
+  padding: 0;
+  border: none;
+}
+
+.product-thumb {
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.42);
+  padding: 8px;
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+}
+
+.product-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.product-thumb:hover,
+.product-thumb.active {
+  transform: translateY(-2px);
+  border-color: var(--glass-border-gold);
+  box-shadow: 0 12px 28px rgba(201, 169, 98, 0.18);
+}
+
+.main-product-details {
+  padding: clamp(22px, 3vw, 36px);
+  border-radius: var(--glass-radius-lg);
+}
+
+.main-product-details h3.title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.main-product-details p.price {
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  color: #1a1a1a;
+  letter-spacing: 0;
+}
+
+.main-product-details .form-control {
+  width: 86px;
+  min-height: 44px;
+  border: 1px solid rgba(201, 169, 98, 0.24);
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.product-heading {
+  min-width: 112px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+.product-data {
+  color: #4a4a4a;
+  line-height: 1.65;
+}
+
+.copy-link-btn {
+  border: none;
+  background: rgba(201, 169, 98, 0.14);
+  color: #1a1a1a;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.product-description-card {
+  background: var(--glass-bg-gold);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius-md);
+  box-shadow: var(--glass-shadow-soft);
+  padding: clamp(18px, 3vw, 30px);
+}
+
+.review-inner-wrapper {
+  border-radius: var(--glass-radius-lg);
+}
+
+.review {
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+}
+
+.review:last-child {
+  border-bottom: none;
+}
+
 .categories,
 .product-card,
 .special-product-card,
@@ -2110,6 +2284,60 @@ textarea {
 }
 
 @media (max-width: 768px) {
+  .main-product-wrapper,
+  .description-wrapper,
+  .reviews-wrapper,
+  .popular-wrapper {
+    padding-top: 26px !important;
+    padding-bottom: 34px !important;
+  }
+
+  .product-view-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .main-product-image-frame {
+    aspect-ratio: 4 / 5;
+  }
+
+  .other-product-images {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .main-product-details {
+    padding: 18px;
+  }
+
+  .main-product-details h3.title {
+    font-size: 1.75rem;
+  }
+
+  .main-product-details .d-flex.align-items-center.gap-15.flex-row {
+    align-items: flex-start !important;
+    flex-wrap: wrap;
+  }
+
+  .main-product-details .ms-5 {
+    margin-left: 0 !important;
+    width: 100%;
+  }
+
+  .main-product-details .button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .product-heading {
+    min-width: 98px;
+  }
+
+  .review-head {
+    align-items: flex-start !important;
+    flex-direction: column;
+    gap: 14px;
+  }
+
   .nav-links.open {
     background: linear-gradient(145deg, rgba(26, 26, 26, 0.94), rgba(38, 38, 38, 0.86));
     backdrop-filter: blur(24px) saturate(150%);
@@ -2117,6 +2345,57 @@ textarea {
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 0 0 var(--glass-radius-md) var(--glass-radius-md);
     box-shadow: var(--glass-shadow-soft);
+  }
+}
+
+@media (max-width: 480px) {
+  .main-product-wrapper .container-xxl,
+  .description-wrapper .container-xxl,
+  .reviews-wrapper .container-xxl,
+  .popular-wrapper .container-xxl {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .main-product-image,
+  .other-product-images,
+  .main-product-details,
+  .review-inner-wrapper,
+  .product-description-card {
+    border-radius: 20px;
+  }
+
+  .other-product-images {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+  }
+
+  .product-thumb {
+    border-radius: 14px;
+    padding: 6px;
+  }
+
+  .main-product-details h3.title {
+    font-size: 1.45rem;
+  }
+
+  .main-product-details p.price {
+    font-size: 1.25rem;
+  }
+
+  .product-heading {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .product-data {
+    width: 100%;
+  }
+
+  .main-product-details .py-3 > .d-flex {
+    align-items: flex-start !important;
+    flex-direction: column;
+    gap: 4px;
   }
 }
 
