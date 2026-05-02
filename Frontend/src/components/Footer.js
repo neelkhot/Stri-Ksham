@@ -96,7 +96,7 @@ const Footer = () => {
                 <ul className="footer-links">
                   <li><Link to="/shipping-policy">Shipping Info</Link></li>
                   <li><Link to="/return-policy">Returns</Link></li>
-                  <li><Link to="/order-track">Track Order</Link></li>
+                  <li><Link to="/my-orders">Track Order</Link></li>
                   <li><Link to="/size-guide">Size Guide</Link></li>
                   <li><Link to="/care">Fabric Care</Link></li>
                 </ul>
