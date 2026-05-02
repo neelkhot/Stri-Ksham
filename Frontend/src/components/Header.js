@@ -233,11 +233,10 @@ const Header = () => {
                 <li><Link to="/ethnic-wear">Ethnic Wear</Link></li>
                 <li><Link to="/accessories">Accessories</Link></li>
                 <li><Link to="/contact">Contact</Link></li>
+                <li><Link to="/my-orders">My Orders</Link></li>
               </ul>
 
-              <div className="nav-extras">
-               <Link to="/my-orders"> <span className="extra-item">Track Order</span></Link>
-              </div>
+              
             </div>
           </div>
         </nav>
