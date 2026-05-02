@@ -184,10 +184,10 @@ const Home = () => {
   }, [dispatch]);
 
   const categories = [
-    { name: "Dresses", image: "/images/cat-1.jpg" },
-    { name: "Tops", image: "/images/cat-2.jpg" },
-    { name: "Ethnic Wear", image: "/images/cat-3.jpg" },
-    { name: "Accessories", image: "/images/cat-4.jpg" }
+    { name: "Dresses", image: "/images/cat-1.jpg", link: "/dresses" },
+    { name: "Jeans", image: "/images/cat-2.jpg", link: "/jeans" },
+    { name: "Ethnic Wear", image: "/images/cat-3.jpg", link: "/ethnic-wear" },
+    { name: "Accessories", image: "/images/cat-4.jpg", link: "/accessories" }
   ];
 
   return (
@@ -316,7 +316,7 @@ const Home = () => {
               </div>
               <div className="category-content">
                 <h3>{cat.name}</h3>
-                <Link to="/product" className="category-link">
+                <Link to={cat.link} className="category-link">
                   Explore <span>→</span>
                 </Link>
               </div>
@@ -425,8 +425,8 @@ const Home = () => {
             <h4>Quick Links</h4>
             <Link to="/product">New Arrivals</Link>
             <Link to="/product">Best Sellers</Link>
-            <Link to="/product">Ethnic Wear</Link>
-            <Link to="/product">Accessories</Link>
+            <Link to="/ethnic-wear">Ethnic Wear</Link>
+            <Link to="/accessories">Accessories</Link>
           </div>
           <div className="footer-links">
             <h4>Help</h4>

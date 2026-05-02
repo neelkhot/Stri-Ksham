@@ -29,6 +29,7 @@ import NewArrivals from "./pages/NewArrivals";
 import Dresses from "./pages/Dresses";
 import EthnicWear from "./pages/EthnicWear";
 import Accessories from "./pages/Accessories";
+import Jeans from "./pages/Jeans";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
             <Route path="dresses" element={<Dresses />} />
             <Route path="ethnic-wear" element={<EthnicWear />} />
             <Route path="accessories" element={<Accessories />} />
+            <Route path="jeans" element={<Jeans />} />
             <Route path="product/:id" element={<SingleProduct />} />
             <Route path="blogs" element={<Blog />} />
             <Route path="blog/:id" element={<SingleBlog />} />
