@@ -205,39 +205,7 @@ const Checkout = () => {
         name: "Cart's corner",
         description: "Test Transaction",
         order_id: order_id,
-        // handler: async function (response) {
-        //   const data = {
-        //     orderCreationId: order_id,
-        //     razorpayPaymentId: response.razorpay_payment_id,
-        //     razorpayOrderId: response.razorpay_order_id,
-        //   };
-
-        //   // Verify payment on backend
-        //   const verifyResult = await axios.post(
-        //     `${base_url}user/order/paymentVerification`,
-        //     data,
-        //     config
-        //   );
-
-        //   // Create order with verified payment
-        //   await dispatch(
-        //     createAnOrder({
-        //       totalPrice: totalAmount,
-        //       totalPriceAfterDiscount: totalAmount,
-        //       orderItems: orderItems,
-        //       paymentInfo: verifyResult.data,
-        //       paymentMethod: "razorpay",
-        //       paymentStatus: "paid",
-        //       shippingInfo: shippingData,
-        //     })
-        //   ).unwrap();
-          
-        //   await dispatch(deleteUserCart(config2));
-        //   localStorage.removeItem("address");
-        //   dispatch(resetState());
-        //   setIsProcessing(false);
-        //   navigate("/my-orders");
-        // }
+        
         handler: async function (response) {
   const data = {
     razorpayOrderId: response.razorpay_order_id,
@@ -318,83 +286,11 @@ const Checkout = () => {
   }, []);
 
 
-  // const checkOutHandler = async () => {
-  //   const res = await loadScript(
-  //     "https://checkout.razorpay.com/v1/checkout.js"
-  //   );
-
-  //   if (!res) {
-  //     alert("Razorpay SDK faild to Load");
-  //     return;
-  //   }
-  //   const result = await axios.post(
-  //     "http://localhost:5000/api/user/order/checkout",
-  //     { amount: totalAmount + 100 },
-  //     config
-  //   );
-
-  //   if (!result) {
-  //     alert("Something Went Wrong in checkout handler ");
-  //     return;
-  //   }
-
-  //   const { amount, id: order_id, currency } = result.data.order;
-
-  //   const options = {
-  //     key: "rzp_test_3yKHpQHNBc8mSv", // Enter the Key ID generated from the Dashboard
-  //     amount: amount,
-  //     currency: currency,
-  //     name: "Cart's corner",
-  //     description: "Test Transaction",
-
-  //     order_id: order_id,
-  //     handler: async function (response) {
-  //       const data = {
-  //         orderCreationId: order_id,
-  //         razorpayPaymentId: response.razorpay_payment_id,
-  //         razorpayOrderId: response.razorpay_order_id,
-  //       };
-
-  //       const result = await axios.post(
-  //         "http://localhost:5000/api/user/order/paymentVerification",
-  //         data,
-  //         config
-  //       );
-
-  //       dispatch(
-  //         createAnOrder({
-  //           totalPrice: totalAmount,
-  //           totalPriceAfterDiscount: totalAmount,
-  //           orderItems: cartProductState,
-  //           paymentInfo: result.data,
-  //           shippingInfo: JSON.parse(localStorage.getItem("address")),
-  //         })
-  //       );
-  //       dispatch(deleteUserCart(config2));
-  //       localStorage.removeItem("address");
-  //       dispatch(resetState());
-  //     },
-  //     prefill: {
-  //       name: "Dev Corner",
-  //       email: "devcorner@example.com",
-  //       contact: "9999999999",
-  //     },
-  //     notes: {
-  //       address: "developer's cornor office",
-  //     },
-  //     theme: {
-  //       color: "#61dafb",
-  //     },
-  //   };
-
-  //   const paymentObject = new window.Razorpay(options);
-  //   paymentObject.open();
-  // };
   return (
     <>
       <Container class1="checkout-wrapper py-5 home-wrapper-2">
         <div className="row">
-          <div className="col-7">
+          <div className="col-lg-7 col-md-12">
             <div className="checkout-left-data">
               <h3 className="website-name">Cart Corner</h3>
               <nav
@@ -628,7 +524,7 @@ const Checkout = () => {
               </form>
             </div>
           </div>
-          <div className="col-5">
+          <div className="col-lg-5 col-md-12">
             <div className="border-bottom py-4">
               {cartState &&
                 cartState?.map((item, index) => {
