@@ -4,6 +4,7 @@
 
 /* CSS Variables */
 :root {
+   --navbar-height: 116px;
   --primary-dark: #1a1a1a;
   --primary-gray: #2d2d2d;
   --secondary-gray: #4a4a4a;
