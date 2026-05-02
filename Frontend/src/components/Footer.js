@@ -65,12 +65,12 @@ const Footer = () => {
               <div className="footer-links-col">
                 <h4>Shop</h4>
                 <ul className="footer-links">
-                  <li><Link to="/new-arrivals">New Arrivals</Link></li>
+                  <li><Link to="/product">New Arrivals</Link></li>
                   <li><Link to="/product">Best Sellers</Link></li>
-                  <li><Link to="/dresses">Dresses</Link></li>
-                  <li><Link to="/jeans">Jeans</Link></li>
-                  <li><Link to="/ethnic-wear">Ethnic Wear</Link></li>
-                  <li><Link to="/accessories">Accessories</Link></li>
+                  <li><Link to="/product">Dresses</Link></li>
+                  <li><Link to="/product">jeans </Link></li>
+                  <li><Link to="/product">Ethnic Wear</Link></li>
+                  <li><Link to="/product">Accessories</Link></li>
                 </ul>
               </div>
             </div>
