@@ -38,6 +38,7 @@
   --glass-shadow-soft: 0 14px 38px rgba(26, 26, 26, 0.08);
   --glass-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.78), rgba(245, 245, 245, 0.46));
   --glass-bg-gold: linear-gradient(145deg, rgba(255, 255, 255, 0.78), rgba(250, 248, 241, 0.54) 62%, rgba(201, 169, 98, 0.14));
+   --navbar-height: 116px;
 }
 
 html {
@@ -125,7 +126,7 @@ body {
 
 #smooth-content {
   min-height: 100vh;
-  padding-top: 116px;
+  padding-top: var(--navbar-height);
   will-change: transform;
 }
 a {
@@ -1626,18 +1627,26 @@ footer .input-group-text {
   align-items: center;
   gap: 20px;
 }
+.nav-extras{
+  background: linear-gradient(145deg, rgba(26, 26, 26, 0.94), rgba(38, 38, 38, 0.86));
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0 0 var(--glass-radius-md) var(--glass-radius-md);
+    box-shadow: var(--glass-shadow-soft);
+}
 
 .extra-item {
   font-family: 'Montserrat', sans-serif;
   font-size: 0.75rem;
-  color: #8a8a8a;
+  color: #FFE28A;
   letter-spacing: 1px;
   cursor: pointer;
   transition: color 0.3s ease;
 }
 
 .extra-item:hover {
-  color: #c9a962;
+  color: #f4b93a;
 }
 
 /* ========================================
@@ -1925,7 +1934,7 @@ a.contact-value:hover {
 /* Responsive */
 @media (max-width: 992px) {
   #smooth-content {
-    padding-top: 108px;
+   padding-top: var(--navbar-height);
   }
 
   .header-main-row {
@@ -2126,7 +2135,7 @@ a.contact-value:hover {
 
 @media (max-width: 576px) {
   #smooth-content {
-    padding-top: 114px;
+    padding-top: var(--navbar-height);
   }
 
   .brand-logo {

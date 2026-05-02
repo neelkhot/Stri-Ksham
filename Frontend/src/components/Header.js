@@ -236,7 +236,7 @@ const Header = () => {
               </ul>
 
               <div className="nav-extras">
-                <span className="extra-item">Track Order</span>
+               <Link to="/my-orders"> <span className="extra-item">Track Order</span></Link>
               </div>
             </div>
           </div>
