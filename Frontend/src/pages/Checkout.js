@@ -288,7 +288,7 @@ const Checkout = () => {
 
   return (
     <>
-      <Container class1="checkout-wrapper py-5 home-wrapper-2">
+      <Container class1="checkout-wrapper py-5 home-wrapper-2 " id="smooth-content">
         <div className="row">
           <div className="col-lg-7 col-md-12">
             <div className="checkout-left-data">
