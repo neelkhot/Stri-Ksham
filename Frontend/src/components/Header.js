@@ -10,11 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { getAProduct } from "../features/products/productSlilce";
-import { getUserCart } from "../features/user/userSlice";
+import { getuserProductWishlist, getUserCart } from "../features/user/userSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
   const cartState = useSelector((state) => state?.auth?.cartProducts);
+  const wishlistState = useSelector((state) => state?.auth?.wishlist?.wishlist);
   const authState = useSelector((state) => state?.auth);
   const [total, setTotal] = useState(null);
   const [paginate] = useState(true);
@@ -35,7 +36,12 @@ const Header = () => {
   }), [customerToken]);
 
   useEffect(() => {
-    dispatch(getUserCart(config2));
+    if (authState?.user) {
+      dispatch(getUserCart(config2));
+      dispatch(getuserProductWishlist());
+    } else {
+      setTotal(0);
+    }
     
     // Scroll listener for header
     const handleScroll = () => {
@@ -43,15 +49,15 @@ const Header = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [config2, dispatch]);
+  }, [authState?.user, config2, dispatch]);
 
   const [productOpt, setProductOpt] = useState([]);
   useEffect(() => {
     let sum = 0;
     for (let index = 0; index < cartState?.length; index++) {
       sum = sum + Number(cartState[index].quantity) * cartState[index].price;
-      setTotal(sum);
     }
+    setTotal(sum);
   }, [cartState]);
 
   useEffect(() => {
@@ -144,7 +150,9 @@ const Header = () => {
                   <Link to="/wishlist" className="action-item">
                     <div className="icon-wrapper">
                       <img src={wishlist} alt="wishlist" />
-                      <span className="badge-count">2</span>
+                      {wishlistState?.length > 0 && (
+                        <span className="badge-count">{wishlistState.length}</span>
+                      )}
                     </div>
                     <div className="action-label">
                       <span className="action-title">Wishlist</span>

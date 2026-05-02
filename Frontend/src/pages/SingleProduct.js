@@ -14,7 +14,7 @@ import {
   getAllProducts,
 } from "../features/products/productSlilce";
 import { toast } from "react-toastify";
-import { addProdToCart, getUserCart } from "../features/user/userSlice";
+import { addProdToCart, getuserProductWishlist, getUserCart } from "../features/user/userSlice";
 
 const SingleProduct = () => {
   const [color, setColor] = useState(null);
@@ -38,6 +38,7 @@ const SingleProduct = () => {
   useEffect(() => {
     dispatch(getAProduct(getProductId));
     dispatch(getUserCart());
+    dispatch(getuserProductWishlist());
     dispatch(getAllProducts());
   }, [dispatch, getProductId]);
 
@@ -54,19 +55,20 @@ const SingleProduct = () => {
     }
   }, [cartState, getProductId]);
 
-  const uploadCart = () => {
+  const uploadCart = async () => {
     if (color === null) {
       toast.error("Please choose Color");
     } else {
-      dispatch(
+      await dispatch(
         addProdToCart({
           productId: productState?._id,
           quantity,
           color,
           price: productState?.price,
-        }),
-        navigate("/cart")
+        })
       );
+      dispatch(getUserCart());
+      navigate("/cart");
     }
   };
   const orderedProduct = true;

@@ -48,10 +48,19 @@ const Login = () => {
       <BreadCrumb title="Login" />
 
       <Container class1="login-wrapper py-5 home-wrapper-2">
-        <div className="row">
-          <div className="col-12">
+        <div className="auth-shell">
+          <div className="auth-intro-panel">
+            <span className="auth-kicker">Rivaa Collections</span>
+            <h1>Welcome Back</h1>
+            <p>
+              Sign in to continue shopping curated women&apos;s fashion,
+              manage your cart, and keep your wishlist close.
+            </p>
+          </div>
+          <div className="auth-form-panel">
             <div className="auth-card">
-              <h3 className="text-center mb-3">Login</h3>
+              <span className="auth-card-label">Account Access</span>
+              <h3>Login</h3>
               <form
                 action=""
                 onSubmit={formik.handleSubmit}
@@ -80,9 +89,11 @@ const Login = () => {
                   {formik.touched.password && formik.errors.password}
                 </div>
                 <div>
-                  <Link to="/forgot-password">Forgot Password?</Link>
+                  <Link to="/forgot-password" className="auth-helper-link">
+                    Forgot Password?
+                  </Link>
 
-                  <div className="mt-3 d-flex justify-content-center gap-15 align-items-center">
+                  <div className="auth-actions">
                     <button className="button border-0" type="submit">
                       Login
                     </button>

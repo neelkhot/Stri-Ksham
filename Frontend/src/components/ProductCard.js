@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 // import addcart from "../images/add-cart.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist } from "../features/products/productSlilce";
+import { getuserProductWishlist } from "../features/user/userSlice";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useState } from "react";
 
@@ -28,18 +29,19 @@ const ProductCard = (props) => {
     return wishlist?.some((item) => item._id === productId);
   };
 
-  const addToWish = (productId) => {
+  const addToWish = async (productId) => {
     if (isProductInWishlist(productId)) {
-      dispatch(addToWishlist(productId)); // Dispatch the action to update the wishlist in Redux store
+      await dispatch(addToWishlist(productId));
 
       const updatedWishlist = wishlist.filter((item) => item._id !== productId);
       setWishlist(updatedWishlist);
     } else {
-      dispatch(addToWishlist(productId)); // Dispatch the action to update the wishlist in Redux store
+      await dispatch(addToWishlist(productId));
 
       const product = data.find((item) => item._id === productId);
       setWishlist([...wishlist, product]);
     }
+    dispatch(getuserProductWishlist());
   };
 
   return (

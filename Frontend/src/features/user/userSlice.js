@@ -26,7 +26,7 @@ export const loginUser = createAsyncThunk(
 
 export const getuserProductWishlist = createAsyncThunk(
   "user/wishlist",
-  async (thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
       return await authService.getUserWislist();
     } catch (error) {
@@ -70,7 +70,7 @@ export const deleteUserCart = createAsyncThunk(
 
 export const getOrders = createAsyncThunk(
   "user/orders/get",
-  async (thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
       return await authService.getUserOrders();
     } catch (error) {
@@ -279,6 +279,9 @@ export const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.deletedCartProduct = action.payload;
+        state.cartProducts = state.cartProducts?.filter(
+          (item) => item?._id !== action.meta.arg.id
+        );
         if (state.isSuccess) {
           toast.success("Product Deleted From Cart Successfully!");
         }
@@ -300,6 +303,11 @@ export const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.updatedCartProduct = action.payload;
+        state.cartProducts = state.cartProducts?.map((item) =>
+          item?._id === action.meta.arg.cartItemId
+            ? { ...item, quantity: action.meta.arg.quantity }
+            : item
+        );
         if (state.isSuccess) {
           toast.success("Product Updated Successfully!");
         }
@@ -442,6 +450,7 @@ export const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.deletedCart = action.payload;
+        state.cartProducts = [];
       })
       .addCase(deleteUserCart.rejected, (state, action) => {
         state.isLoading = false;

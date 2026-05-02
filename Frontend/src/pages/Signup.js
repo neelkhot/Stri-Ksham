@@ -49,10 +49,19 @@ const Signup = () => {
       <Meta title={"Sign Up"} />
       <BreadCrumb title="Sign Up" />
       <Container class1="login-wrapper py-5 home-wrapper-2">
-        <div className="row">
-          <div className="col-12">
+        <div className="auth-shell">
+          <div className="auth-intro-panel">
+            <span className="auth-kicker">Rivaa Collections</span>
+            <h1>Create Your Account</h1>
+            <p>
+              Join Rivaa Collections to save your details, build your wishlist,
+              and shop new looks with a smoother checkout.
+            </p>
+          </div>
+          <div className="auth-form-panel">
             <div className="auth-card">
-              <h3 className="text-center mb-3">Sign Up</h3>
+              <span className="auth-card-label">New Customer</span>
+              <h3>Sign Up</h3>
               <form
                 action=""
                 className="d-flex flex-column gap-15"
@@ -114,9 +123,12 @@ const Signup = () => {
                   {formik.touched.password && formik.errors.password}
                 </div>
                 <div>
-                  <div className="mt-3 d-flex justify-content-center gap-15 align-items-center">
+                  <div className="auth-actions single-action">
                     <button className="button border-0">Sign Up</button>
                   </div>
+                  <p className="auth-switch-text">
+                    Already have an account? <Link to="/login">Login</Link>
+                  </p>
                 </div>
               </form>
             </div>

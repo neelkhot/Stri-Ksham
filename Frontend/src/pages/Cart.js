@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 import watch from "../images/watch.jpg";
@@ -16,15 +16,14 @@ const Cart = () => {
   const getTokenFromLocalStorage = localStorage.getItem("customer")
     ? JSON.parse(localStorage.getItem("customer"))
     : null;
+  const customerToken = getTokenFromLocalStorage?.token || "";
 
-  const config2 = {
+  const config2 = useMemo(() => ({
     headers: {
-      Authorization: `Bearer ${
-        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
-      }`,
+      Authorization: `Bearer ${customerToken}`,
       Accept: "application/json",
     },
-  };
+  }), [customerToken]);
 
   const dispatch = useDispatch();
 
@@ -34,7 +33,7 @@ const Cart = () => {
 
   useEffect(() => {
     dispatch(getUserCart(config2));
-  }, []);
+  }, [config2, dispatch]);
 
   useEffect(() => {
     if (productupdateDetail !== null) {
@@ -43,18 +42,15 @@ const Cart = () => {
           cartItemId: productupdateDetail?.cartItemId,
           quantity: productupdateDetail?.quantity,
         })
-      );
-      setTimeout(() => {
+      ).then(() => {
         dispatch(getUserCart(config2));
-      }, 200);
+      });
     }
-  }, [productupdateDetail]);
+  }, [config2, productupdateDetail, dispatch]);
 
-  const deleteACartProduct = (id) => {
-    dispatch(deleteCartProduct({ id: id, config2: config2 }));
-    setTimeout(() => {
+  const deleteACartProduct = async (id) => {
+    await dispatch(deleteCartProduct({ id: id, config2: config2 }));
       dispatch(getUserCart(config2));
-    }, 200);
   };
 
   useEffect(() => {
@@ -63,8 +59,8 @@ const Cart = () => {
       sum =
         sum +
         Number(userCartState[index].quantity) * userCartState[index].price;
-      setTotalAmount(sum);
     }
+    setTotalAmount(sum);
   }, [userCartState]);
 
   return (
