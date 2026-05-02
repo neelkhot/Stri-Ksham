@@ -272,14 +272,17 @@
   text-transform: uppercase;
   text-decoration: none;
   padding: 16px 40px;
-  border-radius: 0;
+  border-radius: 999px;
   transition: var(--transition-smooth);
+  backdrop-filter: blur(16px) saturate(145%);
+  -webkit-backdrop-filter: blur(16px) saturate(145%);
 }
 
 .hero-btn.primary {
-  background: var(--pure-white);
+  background: rgba(255, 255, 255, 0.82);
   color: var(--primary-dark);
-  border: 1px solid var(--pure-white);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.18);
 }
 
 .hero-btn.primary:hover {
@@ -288,9 +291,9 @@
 }
 
 .hero-btn.secondary {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.08);
   color: var(--pure-white);
-  border: 1px solid var(--pure-white);
+  border: 1px solid rgba(255, 255, 255, 0.62);
 }
 
 .hero-btn.secondary:hover {
@@ -415,8 +418,11 @@
    ======================================== */
 .category-section {
   padding: 100px 5%;
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(12px);
+  background:
+    radial-gradient(circle at 12% 10%, rgba(201, 169, 98, 0.16), transparent 28%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.66), rgba(245, 245, 245, 0.5));
+  backdrop-filter: blur(20px) saturate(145%);
+  -webkit-backdrop-filter: blur(20px) saturate(145%);
 }
 
 .category-grid {
@@ -430,6 +436,9 @@
   height: 400px;
   overflow: hidden;
   cursor: pointer;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.52);
+  box-shadow: 0 22px 58px rgba(26, 26, 26, 0.12);
 }
 
 .category-bg {
@@ -558,8 +567,11 @@
    ======================================== */
 .product-section {
   padding: 100px 5%;
-  background: rgba(245, 245, 245, 0.68);
-  backdrop-filter: blur(12px);
+  background:
+    radial-gradient(circle at 84% 4%, rgba(201, 169, 98, 0.14), transparent 28%),
+    linear-gradient(135deg, rgba(245, 245, 245, 0.68), rgba(255, 255, 255, 0.52));
+  backdrop-filter: blur(20px) saturate(145%);
+  -webkit-backdrop-filter: blur(20px) saturate(145%);
 }
 
 .product-grid {
@@ -570,8 +582,14 @@
 
 .premium-card {
   position: relative;
-  background: rgba(255, 255, 255, 0.86);
-  backdrop-filter: blur(10px);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.78), rgba(245, 245, 245, 0.54)),
+    linear-gradient(315deg, rgba(201, 169, 98, 0.12), transparent 42%);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 24px;
+  box-shadow: 0 20px 54px rgba(26, 26, 26, 0.1);
   overflow: hidden;
   cursor: pointer;
   transform-style: preserve-3d;
@@ -731,8 +749,11 @@
    ======================================== */
 .value-section {
   padding: 80px 5%;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
+  background:
+    radial-gradient(circle at 18% 16%, rgba(201, 169, 98, 0.14), transparent 24%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.66), rgba(245, 245, 245, 0.5));
+  backdrop-filter: blur(20px) saturate(145%);
+  -webkit-backdrop-filter: blur(20px) saturate(145%);
 }
 
 .value-grid {
@@ -746,6 +767,10 @@
 .value-card {
   text-align: center;
   padding: 40px 30px;
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.64), rgba(245, 245, 245, 0.42));
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 16px 40px rgba(26, 26, 26, 0.07);
 }
 
 .value-number {
@@ -777,21 +802,33 @@
    ======================================== */
 .newsletter-section {
   padding: 100px 5%;
-  background: rgba(245, 245, 245, 0.68);
-  backdrop-filter: blur(12px);
+  background:
+    radial-gradient(circle at 80% 20%, rgba(201, 169, 98, 0.16), transparent 28%),
+    linear-gradient(135deg, rgba(245, 245, 245, 0.68), rgba(255, 255, 255, 0.5));
+  backdrop-filter: blur(20px) saturate(145%);
+  -webkit-backdrop-filter: blur(20px) saturate(145%);
 }
 
 .newsletter-content {
   max-width: 600px;
   margin: 0 auto;
   text-align: center;
+  padding: clamp(28px, 5vw, 48px);
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(245, 245, 245, 0.44));
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  box-shadow: 0 22px 58px rgba(26, 26, 26, 0.1);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
 }
 
 .newsletter-form {
   display: flex;
   margin-top: 30px;
-  border: 1px solid var(--pale-gray);
-  background: var(--pure-white);
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  background: rgba(255, 255, 255, 0.52);
+  border-radius: 999px;
+  overflow: hidden;
 }
 
 .newsletter-form input {
@@ -826,7 +863,9 @@
    FOOTER
    ======================================== */
 .home-footer {
-  background: var(--primary-dark);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(201, 169, 98, 0.12), transparent 26%),
+    linear-gradient(145deg, rgba(26, 26, 26, 0.96), rgba(45, 45, 45, 0.9));
   color: var(--pure-white);
   padding: 80px 5% 30px;
 }

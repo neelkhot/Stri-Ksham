@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // import wishlist from "../images/wishlist.svg";
 // import watch from "../images/watch.jpg";
@@ -15,7 +15,6 @@ const ProductCard = (props) => {
   const { grid, data } = props;
   const dispatch = useDispatch();
   console.log(data);
-  const location = useLocation();
 
   const wishlistState = useSelector((state) => state?.auth?.wishlist?.wishlist);
 
@@ -51,9 +50,7 @@ const ProductCard = (props) => {
       return (
         <div
           key={index}
-          className={`${
-            location.pathname === "/product" ? `gr-${grid}` : "col-3"
-          }`}
+          className={grid ? `gr-${grid}` : "col-3"}
         >
           <div className="el-wrapper position-relative">
 

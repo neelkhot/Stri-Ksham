@@ -25,6 +25,10 @@ import { PrivateRoutes } from "./routing/PrivateRoutes";
 import { OpenRoutes } from "./routing/OpenRoutes";
 import Orders from "./pages/Orders";
 import Profile from "./pages/Profile";
+import NewArrivals from "./pages/NewArrivals";
+import Dresses from "./pages/Dresses";
+import EthnicWear from "./pages/EthnicWear";
+import Accessories from "./pages/Accessories";
 
 function App() {
   return (
@@ -36,6 +40,10 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="product" element={<OurStore />} />
+            <Route path="new-arrivals" element={<NewArrivals />} />
+            <Route path="dresses" element={<Dresses />} />
+            <Route path="ethnic-wear" element={<EthnicWear />} />
+            <Route path="accessories" element={<Accessories />} />
             <Route path="product/:id" element={<SingleProduct />} />
             <Route path="blogs" element={<Blog />} />
             <Route path="blog/:id" element={<SingleBlog />} />
