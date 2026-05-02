@@ -183,12 +183,12 @@ const Home = () => {
     return () => ctx.revert();
   }, [dispatch]);
 
-  const categories = [
-    { name: "Dresses", image: "/images/cat-1.jpg", link: "/dresses" },
-    { name: "Jeans", image: "/images/cat-2.jpg", link: "/jeans" },
-    { name: "Ethnic Wear", image: "/images/cat-3.jpg", link: "/ethnic-wear" },
-    { name: "Accessories", image: "/images/cat-4.jpg", link: "/accessories" }
-  ];
+const categories = [
+  { name: "Dresses", image: "/images/cat-1.jpg", path: "/dresses" },
+  { name: "Jeans", image: "/images/cat-2.jpg", path: "/jeans" },
+  { name: "Ethnic Wear", image: "/images/cat-3.jpg", path: "/ethnic-wear" },
+  { name: "Accessories", image: "/images/cat-4.jpg", path: "/accessories" }
+];
 
   return (
     <div className={`home-page ${isLoaded ? 'loaded' : ''}`}>
@@ -308,21 +308,21 @@ const Home = () => {
           <p>Explore our curated collections</p>
         </div>
         
-        <div className="category-grid">
-          {categories.map((cat, index) => (
-            <div key={index} className="category-card">
-              <div className="category-bg">
-                <img src={cat.image} alt={cat.name} />
-              </div>
-              <div className="category-content">
-                <h3>{cat.name}</h3>
-                <Link to={cat.link} className="category-link">
-                  Explore <span>→</span>
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
+       <div className="category-grid">
+  {categories.map((cat, index) => (
+    <Link to={cat.path} key={index} className="category-card">
+      <div className="category-bg">
+        <img src={cat.image} alt={cat.name} />
+      </div>
+      <div className="category-content">
+        <h3>{cat.name}</h3>
+        <span className="category-link">
+          Explore <span>→</span>
+        </span>
+      </div>
+    </Link>
+  ))}
+</div>
       </section>
 
       {/* BANNER SECTION */}
@@ -425,8 +425,8 @@ const Home = () => {
             <h4>Quick Links</h4>
             <Link to="/product">New Arrivals</Link>
             <Link to="/product">Best Sellers</Link>
-            <Link to="/ethnic-wear">Ethnic Wear</Link>
-            <Link to="/accessories">Accessories</Link>
+            <Link to="/product">Ethnic Wear</Link>
+            <Link to="/product">Accessories</Link>
           </div>
           <div className="footer-links">
             <h4>Help</h4>
