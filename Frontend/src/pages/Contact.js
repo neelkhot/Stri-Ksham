@@ -2,25 +2,40 @@ import React from "react";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 import { AiOutlineHome, AiOutlineMail } from "react-icons/ai";
-import { BiPhoneCall, BiInfoCircle } from "react-icons/bi";
+import { BiPhoneCall, BiInfoCircle, BiSend } from "react-icons/bi";
 import Container from "../components/Container";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
 import { createQuery } from "../features/contact/contactSlice";
 
+const STORE_EMAIL = "rivaacollctn@gmail.com";
+
 let contactSchema = yup.object({
-  name: yup.string().required("First Name is Required"),
+  name: yup.string().required("Name is Required"),
   email: yup
     .string()
     .required("Email is Required")
     .email("Email Should be valid"),
-  mobile: yup.number().required().positive().integer("Mobile No is Required"),
-  comment: yup.string().required("comments is Required"),
+  mobile: yup
+    .string()
+    .required("Mobile No is Required")
+    .matches(/^[0-9+\-\s()]{8,16}$/, "Mobile No Should be valid"),
+  comment: yup.string().required("Message is Required"),
 });
 
 const Contact = () => {
   const dispatch = useDispatch();
+
+  const buildMailLink = ({ name, email, mobile, comment }) => {
+    const subject = encodeURIComponent(`Website enquiry from ${name}`);
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\nMobile: ${mobile}\n\nMessage:\n${comment}`
+    );
+
+    return `mailto:${STORE_EMAIL}?subject=${subject}&body=${body}`;
+  };
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -31,125 +46,164 @@ const Contact = () => {
     validationSchema: contactSchema,
     onSubmit: (values) => {
       dispatch(createQuery(values));
+      window.location.href = buildMailLink(values);
     },
   });
+
   return (
     <>
       <Meta title={"Contact Us"} />
       <BreadCrumb title="Contact Us" />
-      <Container class1="contact-wrapper py-5 home-wrapper-2">
-        <div className="row">
-          <div className="col-12">
+      <Container class1="contact-wrapper py-5 home-wrapper-2 premium-contact-page">
+        <div className="contact-page-shell">
+          <div className="contact-page-heading">
+            <span>Rivaa Collection</span>
+            <h1>Contact Us</h1>
+            <p>
+              Need help with an order, sizing, styling, or store visit? Send us
+              a message and our team will get back to you as soon as possible.
+            </p>
+          </div>
+
+          <div className="contact-map-panel">
             <iframe
+              title="Rivaa Collection store location"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30518.60348249801!2d74.5872751548063!3d17.03223056289161!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc13fd00fa89ad1%3A0xcb39627bb039ebc0!2sTasgaon%2C%20Maharashtra%20416312!5e0!3m2!1sen!2sin!4v1759170141068!5m2!1sen!2sin"
-              width="600"
-              height="450"
-              className="border-0 w-100"
+              className="contact-map"
               allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
-          <div className="col-12 mt-5">
-            <div className="contact-inner-wrapper d-flex justify-content-between ">
-              <div>
-                <h3 className="contact-title mb-4">Contact</h3>
-                <form
-                  action=""
-                  onSubmit={formik.handleSubmit}
-                  className="d-flex flex-column gap-15"
-                >
-                  <div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Name"
-                      name="name"
-                      onChange={formik.handleChange("name")}
-                      onBlur={formik.handleBlur("name")}
-                      value={formik.values.name}
-                    />
-                    <div className="error">
-                      {formik.touched.name && formik.errors.name}
-                    </div>
-                  </div>
 
-                  <div>
-                    <input
-                      type="email"
-                      className="form-control"
-                      placeholder="Email"
-                      name="email"
-                      onChange={formik.handleChange("email")}
-                      onBlur={formik.handleBlur("email")}
-                      value={formik.values.email}
-                    />
-                    <div className="error">
-                      {formik.touched.email && formik.errors.email}
-                    </div>
-                  </div>
-                  <div>
-                    <input
-                      type="tel"
-                      className="form-control"
-                      placeholder="Mobile Number"
-                      name="mobile"
-                      onChange={formik.handleChange("mobile")}
-                      onBlur={formik.handleBlur("mobile")}
-                      value={formik.values.mobile}
-                    />
-                    <div className="error">
-                      {formik.touched.mobile && formik.errors.mobile}
-                    </div>
-                  </div>
-                  <div>
-                    <textarea
-                      id=""
-                      className="w-100 form-control"
-                      cols="30"
-                      rows="4"
-                      placeholder="Comments"
-                      name="comment"
-                      onChange={formik.handleChange("comment")}
-                      onBlur={formik.handleBlur("comment")}
-                      value={formik.values.comment}
-                    ></textarea>
-                    <div className="error">
-                      {formik.touched.comment && formik.errors.comment}
-                    </div>
-                  </div>
-                  <div>
-                    <button className="button border-0">Submit</button>
-                  </div>
-                </form>
-              </div>
-              <div>
-                <h3 className="contact-title mb-4">Get in touch with us</h3>
+          <div className="contact-inner-wrapper">
+            <div className="contact-form-panel">
+              <span className="contact-kicker">Write to us</span>
+              <h3 className="contact-title">Send a Message</h3>
+              <p className="contact-panel-copy">
+                Share your details below. Your message will also open in your
+                email app addressed to {STORE_EMAIL}.
+              </p>
+              <form
+                onSubmit={formik.handleSubmit}
+                className="contact-form d-flex flex-column gap-15"
+              >
                 <div>
-                  <ul className="ps-0">
-                    <li className="mb-3 d-flex gap-15 align-items-center">
-                      <AiOutlineHome className="fs-5" />
-                      <address className="mb-0">
-                        Hno : Sadashiv Peth, Bapu Wadi, Tasgaon, Maharashtra 416312
-                      </address>
-                    </li>
-                    <li className="mb-3 d-flex gap-15 align-items-center">
-                      <BiPhoneCall className="fs-5" />
-                      <a href="tel:+91 8264954234">+91 8788790703</a>
-                    </li>
-                    <li className="mb-3 d-flex gap-15 align-items-center">
-                      <AiOutlineMail className="fs-5" />
-                      <a href="mailto:neelkhot1008@gmail.com">
-                        neelkhot1008@gmail.com
-                      </a>
-                    </li>
-                    <li className="mb-3 d-flex gap-15 align-items-center">
-                      <BiInfoCircle className="fs-5" />
-                      <p className="mb-0">Monday – Sunday 10 AM – 8 PM</p>
-                    </li>
-                  </ul>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Your name"
+                    name="name"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.name}
+                  />
+                  <div className="error">
+                    {formik.touched.name && formik.errors.name}
+                  </div>
                 </div>
-              </div>
+
+                <div>
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder="Email address"
+                    name="email"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.email}
+                  />
+                  <div className="error">
+                    {formik.touched.email && formik.errors.email}
+                  </div>
+                </div>
+
+                <div>
+                  <input
+                    type="tel"
+                    className="form-control"
+                    placeholder="Mobile Number"
+                    name="mobile"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.mobile}
+                  />
+                  <div className="error">
+                    {formik.touched.mobile && formik.errors.mobile}
+                  </div>
+                </div>
+
+                <div>
+                  <textarea
+                    className="w-100 form-control"
+                    rows="4"
+                    placeholder="How can we help?"
+                    name="comment"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.comment}
+                  ></textarea>
+                  <div className="error">
+                    {formik.touched.comment && formik.errors.comment}
+                  </div>
+                </div>
+
+                <div>
+                  <button className="button border-0 contact-submit" type="submit">
+                    <BiSend />
+                    Send Mail
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div className="contact-info-panel">
+              <span className="contact-kicker">Visit or reach us</span>
+              <h3 className="contact-title">Store Details</h3>
+              <p className="contact-panel-copy">
+                We are available all week for product questions, order support,
+                and collection enquiries.
+              </p>
+              <ul className="ps-0">
+                <li className="contact-detail-card">
+                  <span className="contact-detail-icon">
+                    <AiOutlineHome />
+                  </span>
+                  <div>
+                    <span>Address</span>
+                    <address>
+                      Hno : Sadashiv Peth, Bapu Wadi, Tasgaon, Maharashtra 416312
+                    </address>
+                  </div>
+                </li>
+                <li className="contact-detail-card">
+                  <span className="contact-detail-icon">
+                    <BiPhoneCall />
+                  </span>
+                  <div>
+                    <span>Phone</span>
+                    <a href="tel:+918788790703">+91 8788790703</a>
+                  </div>
+                </li>
+                <li className="contact-detail-card">
+                  <span className="contact-detail-icon">
+                    <AiOutlineMail />
+                  </span>
+                  <div>
+                    <span>Email</span>
+                    <a href={`mailto:${STORE_EMAIL}`}>{STORE_EMAIL}</a>
+                  </div>
+                </li>
+                <li className="contact-detail-card">
+                  <span className="contact-detail-icon">
+                    <BiInfoCircle />
+                  </span>
+                  <div>
+                    <span>Store Hours</span>
+                    <p>Monday - Sunday, 10 AM - 8 PM</p>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

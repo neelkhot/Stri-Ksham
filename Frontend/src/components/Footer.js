@@ -53,9 +53,9 @@ const Footer = () => {
                 </p>
                 <div className="social-links">
                   <a href="#" className="social-link"><BsInstagram /></a>
-                  <a href="#" className="social-link"><BsLinkedin /></a>
-                  <a href="#" className="social-link"><BsYoutube /></a>
-                  <a href="#" className="social-link"><BsGithub /></a>
+               
+                  
+                  
                 </div>
               </div>
             </div>
@@ -131,8 +131,8 @@ const Footer = () => {
                     <span className="contact-icon">◈</span>
                     <div>
                       <p className="contact-label">Email</p>
-                      <a href="mailto:devjariwala8444@gmail.com" className="contact-value">
-                        devjariwala8444@gmail.com
+                      <a href="mailto:rivaacollctn@gmail.com" className="contact-value">
+                        rivaacollctn@gmail.com
                       </a>
                     </div>
                   </div>
