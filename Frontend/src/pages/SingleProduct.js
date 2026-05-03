@@ -101,7 +101,10 @@ const SingleProduct = () => {
     let data = [];
     for (let index = 0; index < productsState?.length; index++) {
       const element = productsState[index];
-      if (element.tags === "popular") {
+      const productTags = Array.isArray(element.tags)
+        ? element.tags
+        : [element.tags];
+      if (productTags.includes("popular")) {
         data.push(element);
       }
     }
@@ -203,7 +206,14 @@ const SingleProduct = () => {
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Tags :</h3>
-                  <p className="product-data">{productState?.tags}</p>
+                  <p className="product-data">
+                    {(Array.isArray(productState?.tags)
+                      ? productState?.tags
+                      : [productState?.tags]
+                    )
+                      .filter(Boolean)
+                      .join(", ")}
+                  </p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Availablity :</h3>

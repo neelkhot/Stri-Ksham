@@ -33,11 +33,11 @@ const OurStore = () => {
       const element = productState[index];
       newBrands.push(element.brand);
       category.push(element.category);
-      newtags.push(element.tags);
+      newtags.push(...(Array.isArray(element.tags) ? element.tags : [element.tags]));
     }
-    setBrands(newBrands);
-    setCategories(category);
-    setTags(newtags);
+    setBrands(newBrands.filter(Boolean));
+    setCategories(category.filter(Boolean));
+    setTags(newtags.filter(Boolean));
   }, [productState]);
 
   const dispatch = useDispatch();
