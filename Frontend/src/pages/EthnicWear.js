@@ -4,7 +4,7 @@ import CategoryCollectionPage from "./CategoryCollectionPage";
 const EthnicWear = () => (
  <CategoryCollectionPage
   title="Ethnic Wear"
-  category={["Ethnic Wear", "Sari"]}
+  category="Sari"
   emptyMessage="No ethnic wear products are available right now."
 />
 );
