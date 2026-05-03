@@ -73,31 +73,34 @@ const Orders = () => {
                           className="row py-3"
                           style={{ backgroundColor: "#232f3e" }}
                         >
-                          <div className="col-3">
+                          <div className="col-2">
                             <h6 className="text-white">ProductName</h6>
                           </div>
-                          <div className="col-3">
+                          <div className="col-2">
                             <h6 className="text-white">Quantity</h6>
                           </div>
-                          <div className="col-3">
+                          <div className="col-2">
                             <h6 className="text-white">Price</h6>
                           </div>
                           <div className="col-3">
                             <h6 className="text-white">Color</h6>
                           </div>
+                          <div className="col-3">
+                            <h6 className="text-white">Size</h6>
+                          </div>
                           {item?.orderItems?.map((i, index) => {
                             return (
                               <div className="col-12">
                                 <div className="row py-3">
-                                  <div className="col-3">
+                                  <div className="col-2">
                                     <p className="text-white">
                                       {i?.product?.title}
                                     </p>
                                   </div>
-                                  <div className="col-3">
+                                  <div className="col-2">
                                     <p className="text-white">{i?.quantity}</p>
                                   </div>
-                                  <div className="col-3">
+                                  <div className="col-2">
                                     <p className="text-white">{i?.price}</p>
                                   </div>
                                   <div className="col-3">
@@ -108,6 +111,11 @@ const Orders = () => {
                                         }}
                                       ></li>
                                     </ul>
+                                  </div>
+                                  <div className="col-3">
+                                    <p className="text-white">
+                                      {i?.size?.title || "-"}
+                                    </p>
                                   </div>
                                 </div>
                               </div>

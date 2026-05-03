@@ -302,6 +302,12 @@ const Cart = () => {
                             ></li>
                           </ul>
                         </p>
+                        {item?.size?.title && (
+                          <p className="d-flex gap-3">
+                            Size:
+                            <span>{item.size.title}</span>
+                          </p>
+                        )}
                       </div>
                     </div>
 

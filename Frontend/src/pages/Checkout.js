@@ -111,6 +111,7 @@ const Checkout = () => {
         product: cartState[index].productId._id,
         quantity: cartState[index].quantity,
         color: cartState[index].color._id,
+        size: cartState[index].size?._id,
         price: cartState[index].price,
       });
     }
@@ -164,6 +165,7 @@ const Checkout = () => {
           product: cartState[index].productId._id,
           quantity: cartState[index].quantity,
           color: cartState[index].color._id,
+          size: cartState[index].size?._id,
           price: cartState[index].price,
         });
       }
@@ -279,6 +281,7 @@ const Checkout = () => {
         product: cartState[index].productId._id,
         quantity: cartState[index].quantity,
         color: cartState[index].color._id,
+        size: cartState[index].size?._id,
         price: cartState[index].price,
       });
     }
@@ -553,6 +556,9 @@ const Checkout = () => {
                             {item?.productId?.title}
                           </h5>
                           <p className="total-price">{item?.color?.title}</p>
+                          {item?.size?.title && (
+                            <p className="total-price">Size: {item.size.title}</p>
+                          )}
                         </div>
                       </div>
                       <div className="flex-grow-1">

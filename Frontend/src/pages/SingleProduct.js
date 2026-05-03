@@ -18,6 +18,7 @@ import { addProdToCart, getuserProductWishlist, getUserCart } from "../features/
 
 const SingleProduct = () => {
   const [color, setColor] = useState(null);
+  const [size, setSize] = useState(null);
 
   const [quantity, setQuantity] = useState(1);
   const [alreadyAdded, setAlreadyAdded] = useState(false);
@@ -44,6 +45,8 @@ const SingleProduct = () => {
 
   useEffect(() => {
     setSelectedImage(productState?.images?.[0]?.url || fallbackImage);
+    setColor(null);
+    setSize(null);
   }, [productState, fallbackImage]);
 
   useEffect(() => {
@@ -58,12 +61,15 @@ const SingleProduct = () => {
   const uploadCart = async () => {
     if (color === null) {
       toast.error("Please choose Color");
+    } else if (productState?.size?.length && size === null) {
+      toast.error("Please choose Size");
     } else {
       await dispatch(
         addProdToCart({
           productId: productState?._id,
           quantity,
           color,
+          size,
           price: productState?.price,
         })
       );
@@ -216,6 +222,27 @@ const SingleProduct = () => {
                       setColor={setColor}
                       colorData={productState?.color}
                     />
+                  </div>
+                )}
+                {alreadyAdded === false && productState?.size?.length > 0 && (
+                  <div className="d-flex gap-10 flex-column mt-2 mb-3">
+                    <h3 className="product-heading">Size :</h3>
+                    <div className="d-flex flex-wrap gap-15">
+                      {productState?.size?.map((item) => (
+                        <button
+                          key={item?._id}
+                          type="button"
+                          className={`badge border border-1 ${
+                            size === item?._id
+                              ? "bg-dark text-white border-dark"
+                              : "bg-white text-dark border-secondary"
+                          }`}
+                          onClick={() => setSize(item?._id)}
+                        >
+                          {item?.title}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
 
