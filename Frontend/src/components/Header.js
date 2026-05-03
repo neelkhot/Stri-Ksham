@@ -137,7 +137,7 @@ const Header = () => {
               {/* Action Icons */}
               <div className="header-actions-col">
                 <div className="header-actions">
-                  <Link to="/compare-product" className="action-item">
+                  {/* <Link to="/compare-product" className="action-item">
                     <div className="icon-wrapper">
                       <img src={compare} alt="compare" />
                     </div>
@@ -145,7 +145,7 @@ const Header = () => {
                       <span className="action-title">Compare</span>
                       <span className="action-sub">Products</span>
                     </div>
-                  </Link>
+                  </Link> */}
                   
                   <Link to="/wishlist" className="action-item">
                     <div className="icon-wrapper">

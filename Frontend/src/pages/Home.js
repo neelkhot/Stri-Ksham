@@ -415,7 +415,7 @@ const categories = [
       </section>
 
       {/* FOOTER */}
-      <footer className="home-footer">
+      {/* <footer className="home-footer">
         <div className="footer-content">
           <div className="footer-brand">
             <h3>Rivaa collection</h3>
@@ -447,7 +447,7 @@ const categories = [
         <div className="footer-bottom">
           <p>© 2026 Rivaa collection. All rights reserved.</p>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };
