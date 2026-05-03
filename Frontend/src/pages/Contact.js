@@ -68,7 +68,7 @@ const Contact = () => {
           <div className="contact-map-panel">
             <iframe
               title="Rivaa Collection store location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30518.60348249801!2d74.5872751548063!3d17.03223056289161!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc13fd00fa89ad1%3A0xcb39627bb039ebc0!2sTasgaon%2C%20Maharashtra%20416312!5e0!3m2!1sen!2sin!4v1759170141068!5m2!1sen!2sin"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d121660.28119135296!2d75.80589811180636!3d17.655662324508146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc5d082b54ac5d5%3A0x3c719de6c83710d0!2sSolapur%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1777805021893!5m2!1sen!2sin"
               className="contact-map"
               allowFullScreen=""
               loading="lazy"
@@ -172,7 +172,7 @@ const Contact = () => {
                   <div>
                     <span>Address</span>
                     <address>
-                      Hno : Sadashiv Peth, Bapu Wadi, Tasgaon, Maharashtra 416312
+                      Hno : ashok chouk, sakher peth, Solapur, Maharashtra 413006
                     </address>
                   </div>
                 </li>
