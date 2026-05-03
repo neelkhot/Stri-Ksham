@@ -45,8 +45,8 @@ const Footer = () => {
             <div className="col-lg-3 col-md-6 col-12">
               <div className="footer-brand-col">
                 <Link to="/" className="footer-brand">
-                  <span className="brand-name">SHREE</span>
-                  <span className="brand-sub">FASHION</span>
+                  <span className="brand-name">RIVAA</span>
+                  <span className="brand-sub">collection</span>
                 </Link>
                 <p className="brand-desc">
                   Your destination for premium women's fashion. Curated styles for the modern woman who embraces elegance.
@@ -149,7 +149,7 @@ const Footer = () => {
           <div className="row align-items-center">
             <div className="col-md-6">
               <p className="copyright">
-                © {new Date().getFullYear()} Shree Fashion. All rights reserved.
+                © {new Date().getFullYear()} Rivaa collection. All rights reserved.
               </p>
             </div>
             <div className="col-md-6">

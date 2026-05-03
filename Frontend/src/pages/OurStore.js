@@ -61,7 +61,7 @@ const OurStore = () => {
 
   return (
     <>
-      <Meta title={"Our Store | Shree Fashion"} />
+      <Meta title={"Our Store | Rivaa collection"} />
       <div className="store-page-wrapper">
         <BreadCrumb title="Shop" />
         

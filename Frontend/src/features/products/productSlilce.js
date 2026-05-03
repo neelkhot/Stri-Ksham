@@ -115,6 +115,7 @@ export const productSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.rating = action.payload;
+        state.singleproduct = action.payload;
         state.message = "Rating Added Successfully";
         if (state.isSuccess) {
           toast.success("Rating Added Successfully");

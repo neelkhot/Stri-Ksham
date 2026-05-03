@@ -221,7 +221,7 @@ const categories = [
             <div className="hero-marquee-line line-top">
               <span>NEW COLLECTION</span>
               <span>PREMIUM FASHION</span>
-              <span>SHREE STYLE</span>
+              <span>RIVAA STYLE</span>
               <span>NEW COLLECTION</span>
               <span>PREMIUM FASHION</span>
             </div>
@@ -418,7 +418,7 @@ const categories = [
       <footer className="home-footer">
         <div className="footer-content">
           <div className="footer-brand">
-            <h3>Shree Fashion</h3>
+            <h3>Rivaa collection</h3>
             <p>Your destination for premium women's fashion</p>
           </div>
           <div className="footer-links">
@@ -445,7 +445,7 @@ const categories = [
           </div>
         </div>
         <div className="footer-bottom">
-          <p>© 2026 Shree Fashion. All rights reserved.</p>
+          <p>© 2026 Rivaa collection. All rights reserved.</p>
         </div>
       </footer>
     </div>

@@ -4,7 +4,7 @@ import CategoryCollectionPage from "./CategoryCollectionPage";
 const NewArrivals = () => (
   <CategoryCollectionPage
     title="New Arrivals"
-    category="New Arrival"
+    tag="new-arrival"
     emptyMessage="New arrivals will appear here as soon as products are added."
   />
 );

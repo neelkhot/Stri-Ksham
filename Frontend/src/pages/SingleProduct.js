@@ -31,6 +31,13 @@ const SingleProduct = () => {
   const cartState = useSelector((state) => state?.auth?.cartProducts);
   const wishlistState = useSelector((state) => state?.auth?.wishlist?.wishlist);
   const productImages = productState?.images || [];
+  const reviewCount = productState?.ratings?.length || 0;
+  const averageRating = reviewCount
+    ? productState.ratings.reduce(
+        (sum, item) => sum + Number(item?.star || 0),
+        0
+      ) / reviewCount
+    : Number(productState?.totalrating || 0);
   const fallbackImage =
     "https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=900";
   const [selectedImage, setSelectedImage] = useState(fallbackImage);
@@ -109,20 +116,24 @@ const SingleProduct = () => {
     setIsFilled(!isFilled);
   };
 
-  const addRatingToProduct = () => {
+  const addRatingToProduct = async () => {
     if (star === null) {
       toast.error("Please add star rating");
       return false;
-    } else if (comment === null) {
+    } else if (!comment?.trim()) {
       toast.error("Please Write Review About the Product");
       return false;
     } else {
-      dispatch(
-        addRating({ star: star, comment: comment, prodId: getProductId })
-      );
-      setTimeout(() => {
+      try {
+        await dispatch(
+          addRating({ star, comment, prodId: getProductId })
+        ).unwrap();
         dispatch(getAProduct(getProductId));
-      }, 100);
+        setStar(null);
+        setComment("");
+      } catch (error) {
+        toast.error("Unable to submit review. Please login and try again.");
+      }
     }
     return false;
   };
@@ -165,12 +176,12 @@ const SingleProduct = () => {
                   <ReactStars
                     count={5}
                     size={24}
-                    value={productState?.totalrating.toString()}
+                    value={averageRating}
                     edit={false}
                     activeColor="#ffd700"
                   />
                   <p className="mb-0 t-review">
-                    ( {productState?.ratings?.length} Reviews )
+                    ( {reviewCount} Reviews )
                   </p>
                 </div>
                 <a className="review-btn" href="#review">
@@ -350,12 +361,12 @@ const SingleProduct = () => {
                     <ReactStars
                       count={5}
                       size={24}
-                      value={productState?.totalrating?.toString()}
+                      value={averageRating}
                       edit={false}
                       activeColor="#ffd700"
                     />
                     <p className="mb-0">
-                      Based on {productState?.ratings?.length} Reviews
+                      Based on {reviewCount} Reviews
                     </p>
                   </div>
                 </div>
@@ -390,6 +401,7 @@ const SingleProduct = () => {
                     cols="30"
                     rows="4"
                     placeholder="Comments"
+                    value={comment || ""}
                     onChange={(e) => {
                       setComment(e.target.value);
                     }}
