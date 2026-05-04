@@ -5,6 +5,7 @@ import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist } from "../features/products/productSlilce";
 import { getuserProductWishlist } from "../features/user/userSlice";
+import { Link } from "react-router-dom";
 const Wishlist = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -20,40 +21,44 @@ const Wishlist = () => {
     <>
       <Meta title={"Wishlist"} />
       <BreadCrumb title="Wishlist" />
-      <Container class1="wishlist-wrapper home-wrapper-2 py-5">
-        <div className="row">
+      <Container class1="wishlist-wrapper home-wrapper-2 py-4">
+        <div className="wishlist-grid">
           {wishlistState && wishlistState.length === 0 && (
-            <div className="text-center fs-3">No Data</div>
+            <div className="wishlist-empty">No wishlist products yet.</div>
           )}
           {wishlistState &&
             wishlistState?.map((item, index) => {
               return (
-                <div className="col-3" key={index}>
-                  <div className="wishlist-card position-relative">
-                    <img
+                <div className="wishlist-card position-relative" key={index}>
+                    <button
+                      type="button"
                       onClick={() => {
                         removeFromWishlist(item?._id);
                       }}
-                      src="images/cross.svg"
-                      alt="cross"
-                      className="position-absolute cross img-fluid"
-                    />
-                    <div className="wishlist-card-image">
+                      className="wishlist-remove position-absolute"
+                      aria-label={`Remove ${item?.title || "product"} from wishlist`}
+                    >
+                      <img src="images/cross.svg" alt="" />
+                    </button>
+                    <Link
+                      to={`/product/${item?._id}`}
+                      className="wishlist-card-link"
+                    >
+                      <div className="wishlist-card-image">
                       <img
                         src={
-                          item?.images[0].url
+                          item?.images?.[0]?.url
                             ? item?.images[0].url
                             : "images/watch.jpg"
                         }
-                        className="img-fluid w-100"
-                        alt="watch"
+                        alt={item?.title || "wishlist product"}
                       />
-                    </div>
-                    <div className="py-3 px-3">
+                      </div>
+                      <div className="wishlist-card-copy">
                       <h5 className="title">{item?.title}</h5>
                       <h6 className="price">Rs. {item?.price}</h6>
-                    </div>
-                  </div>
+                      </div>
+                    </Link>
                 </div>
               );
             })}
