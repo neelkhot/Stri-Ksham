@@ -45,6 +45,13 @@ const SingleProduct = () => {
   const fallbackImage =
     "https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=900";
   const [selectedImage, setSelectedImage] = useState(fallbackImage);
+
+  const normalizeId = (value) => {
+    if (!value) return "";
+    if (typeof value === "object") return value?._id || "";
+    return String(value);
+  };
+
   useEffect(() => {
     dispatch(getAProduct(getProductId));
     const timer = setTimeout(() => {
@@ -70,6 +77,18 @@ const SingleProduct = () => {
     setColor(null);
     setSize(null);
   }, [productState, fallbackImage]);
+
+  useEffect(() => {
+    if (!color) return;
+
+    const matchingImage = productImages.find(
+      (image) => normalizeId(image?.color) === color
+    );
+
+    if (matchingImage?.url) {
+      setSelectedImage(matchingImage.url);
+    }
+  }, [color, productImages]);
 
   useEffect(() => {
     setAlreadyAdded(false);
