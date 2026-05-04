@@ -2,9 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const LoadingOverlay = ({ active, message = "Loading..." }) => {
-  const reduxLoading = useSelector(
-    (state) => state?.auth?.isLoading || state?.contact?.isLoading
-  );
+  const loadingAction = useSelector((state) => state?.auth?.loadingAction);
+  const contactLoading = useSelector((state) => state?.contact?.isLoading);
+  const reduxLoading =
+    contactLoading ||
+    [
+      "login",
+      "register",
+      "forgot-password",
+      "reset-password",
+      "create-order",
+      "update-profile",
+    ].includes(loadingAction);
   const shouldShow = active ?? reduxLoading;
   const [visible, setVisible] = useState(false);
 

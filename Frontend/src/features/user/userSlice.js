@@ -175,6 +175,7 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
+  loadingAction: null,
   message: "",
 };
 
@@ -186,9 +187,11 @@ export const authSlice = createSlice({
     builder
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
+        state.loadingAction = "register";
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = false;
         state.isSuccess = true;
         state.createdUser = action.payload;
@@ -198,6 +201,7 @@ export const authSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.payload?.message || action.error?.message;
@@ -207,9 +211,11 @@ export const authSlice = createSlice({
       })
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
+        state.loadingAction = "login";
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = false;
         state.isSuccess = true;
         state.user = action.payload;
@@ -221,6 +227,7 @@ export const authSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.payload?.message || action.error?.message;
@@ -230,24 +237,29 @@ export const authSlice = createSlice({
       })
       .addCase(getuserProductWishlist.pending, (state) => {
         state.isLoading = true;
+        state.loadingAction = "wishlist";
       })
       .addCase(getuserProductWishlist.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = false;
         state.isSuccess = true;
         state.wishlist = action.payload;
       })
       .addCase(getuserProductWishlist.rejected, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
       })
       .addCase(addProdToCart.pending, (state) => {
         state.isLoading = true;
+        state.loadingAction = "add-cart";
       })
       .addCase(addProdToCart.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = false;
         state.isSuccess = true;
         state.cartProduct = action.payload;
@@ -257,30 +269,36 @@ export const authSlice = createSlice({
       })
       .addCase(addProdToCart.rejected, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
       })
       .addCase(getUserCart.pending, (state) => {
         state.isLoading = true;
+        state.loadingAction = "cart";
       })
       .addCase(getUserCart.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = false;
         state.isSuccess = true;
         state.cartProducts = action.payload;
       })
       .addCase(getUserCart.rejected, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
       })
       .addCase(deleteCartProduct.pending, (state) => {
         state.isLoading = true;
+        state.loadingAction = "delete-cart-product";
       })
       .addCase(deleteCartProduct.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = false;
         state.isSuccess = true;
         state.deletedCartProduct = action.payload;
@@ -293,6 +311,7 @@ export const authSlice = createSlice({
       })
       .addCase(deleteCartProduct.rejected, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
@@ -302,9 +321,11 @@ export const authSlice = createSlice({
       })
       .addCase(updateCartProduct.pending, (state) => {
         state.isLoading = true;
+        state.loadingAction = "update-cart-product";
       })
       .addCase(updateCartProduct.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = false;
         state.isSuccess = true;
         state.updatedCartProduct = action.payload;
@@ -319,6 +340,7 @@ export const authSlice = createSlice({
       })
       .addCase(updateCartProduct.rejected, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
@@ -328,9 +350,11 @@ export const authSlice = createSlice({
       })
       .addCase(createAnOrder.pending, (state) => {
         state.isLoading = true;
+        state.loadingAction = "create-order";
       })
       .addCase(createAnOrder.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = false;
         state.isSuccess = true;
         state.orderedProduct = action.payload;
@@ -349,6 +373,7 @@ export const authSlice = createSlice({
       // })
       .addCase(createAnOrder.rejected, (state, action) => {
   state.isLoading = false;
+  state.loadingAction = null;
   state.isError = true;
   state.isSuccess = false;
   state.message = action.payload?.message || "Something Went Wrong!";
@@ -357,24 +382,29 @@ export const authSlice = createSlice({
 
       .addCase(getOrders.pending, (state) => {
         state.isLoading = true;
+        state.loadingAction = "orders";
       })
       .addCase(getOrders.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = false;
         state.isSuccess = true;
         state.getorderedProduct = action.payload;
       })
       .addCase(getOrders.rejected, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
       })
       .addCase(updateProfile.pending, (state) => {
         state.isLoading = true;
+        state.loadingAction = "update-profile";
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = false;
         state.isSuccess = true;
         state.updatedUser = action.payload;
@@ -396,6 +426,7 @@ export const authSlice = createSlice({
       })
       .addCase(updateProfile.rejected, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
@@ -406,9 +437,11 @@ export const authSlice = createSlice({
 
       .addCase(forgotPasswordToken.pending, (state) => {
         state.isLoading = true;
+        state.loadingAction = "forgot-password";
       })
       .addCase(forgotPasswordToken.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = false;
         state.isSuccess = true;
         state.token = action.payload;
@@ -418,6 +451,7 @@ export const authSlice = createSlice({
       })
       .addCase(forgotPasswordToken.rejected, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
@@ -427,9 +461,11 @@ export const authSlice = createSlice({
       })
       .addCase(resetPassword.pending, (state) => {
         state.isLoading = true;
+        state.loadingAction = "reset-password";
       })
       .addCase(resetPassword.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = false;
         state.isSuccess = true;
         state.pass = action.payload;
@@ -439,6 +475,7 @@ export const authSlice = createSlice({
       })
       .addCase(resetPassword.rejected, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
@@ -448,9 +485,11 @@ export const authSlice = createSlice({
       })
       .addCase(deleteUserCart.pending, (state) => {
         state.isLoading = true;
+        state.loadingAction = "empty-cart";
       })
       .addCase(deleteUserCart.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = false;
         state.isSuccess = true;
         state.deletedCart = action.payload;
@@ -458,6 +497,7 @@ export const authSlice = createSlice({
       })
       .addCase(deleteUserCart.rejected, (state, action) => {
         state.isLoading = false;
+        state.loadingAction = null;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
