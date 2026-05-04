@@ -18,6 +18,7 @@ const Resetpassword = () => {
   const location = useLocation();
   const getToken = location.pathname.split("/")[2];
   const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state?.auth?.isLoading);
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -62,7 +63,9 @@ const Resetpassword = () => {
                 /> */}
                 <div>
                   <div className="mt-3 d-flex justify-content-center gap-15 align-items-center">
-                    <button className="button border-0">Ok</button>
+                    <button className="button border-0" type="submit" disabled={isLoading}>
+                      {isLoading ? "Saving..." : "Ok"}
+                    </button>
                   </div>
                 </div>
               </form>

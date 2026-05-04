@@ -19,6 +19,7 @@ let emailSchema = yup.object({
 const Forgotpassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state?.auth?.isLoading);
 
   const formik = useFormik({
     initialValues: {
@@ -62,8 +63,8 @@ const Forgotpassword = () => {
 
                 <div>
                   <div className="mt-3 d-flex justify-content-center flex-column gap-15 align-items-center">
-                    <button className="button border-0" type="submit">
-                      Submit
+                    <button className="button border-0" type="submit" disabled={isLoading}>
+                      {isLoading ? "Sending..." : "Submit"}
                     </button>
                     <Link to="/login">Cancel</Link>
                   </div>

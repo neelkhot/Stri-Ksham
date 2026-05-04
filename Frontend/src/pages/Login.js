@@ -94,8 +94,12 @@ const Login = () => {
                   </Link>
 
                   <div className="auth-actions">
-                    <button className="button border-0" type="submit">
-                      Login
+                    <button
+                      className="button border-0"
+                      type="submit"
+                      disabled={authState.isLoading}
+                    >
+                      {authState.isLoading ? "Logging in..." : "Login"}
                     </button>
                     <Link to="/signup" className="button signup">
                       SignUp

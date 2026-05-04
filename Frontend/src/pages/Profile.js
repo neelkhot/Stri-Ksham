@@ -22,6 +22,7 @@ const Profile = () => {
   const config2 = getAuthConfig();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.auth.user);
+  const isLoading = useSelector((state) => state.auth.isLoading);
   const [edit, setEdit] = useState(true);
   const formik = useFormik({
     initialValues: {
@@ -126,8 +127,8 @@ const Profile = () => {
               </div>
 
               {edit === false && (
-                <button type="submit" className="btn btn-primary">
-                  Save
+                <button type="submit" className="btn btn-primary" disabled={isLoading}>
+                  {isLoading ? "Saving..." : "Save"}
                 </button>
               )}
             </form>

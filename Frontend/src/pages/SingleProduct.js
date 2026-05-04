@@ -30,6 +30,8 @@ const SingleProduct = () => {
   const productState = useSelector((state) => state?.product?.singleproduct);
   const productsState = useSelector((state) => state?.product?.product);
   const cartState = useSelector((state) => state?.auth?.cartProducts);
+  const authLoading = useSelector((state) => state?.auth?.isLoading);
+  const productLoading = useSelector((state) => state?.product?.isLoading);
   const wishlistState = useSelector((state) => state?.auth?.wishlist?.wishlist);
   const isLoggedIn = Boolean(getStoredCustomer()?.token);
   const productImages = productState?.images || [];
@@ -253,6 +255,7 @@ const SingleProduct = () => {
                     <Color
                       setColor={setColor}
                       colorData={productState?.color}
+                      selectedColor={color}
                     />
                   </div>
                 )}
@@ -304,11 +307,12 @@ const SingleProduct = () => {
                       // data-bs-toggle="modal"
                       // data-bs-target="#staticBackdrop"
                       type="button"
+                      disabled={authLoading}
                       onClick={() => {
                         alreadyAdded ? navigate("/cart") : uploadCart();
                       }}
                     >
-                      {alreadyAdded ? "Go to Cart" : "Add to Cart "}
+                      {authLoading ? "Adding..." : alreadyAdded ? "Go to Cart" : "Add to Cart "}
                     </button>
                     {/* <button className="button signup">Buy It Now</button> */}
                   </div>
@@ -433,8 +437,9 @@ const SingleProduct = () => {
                     onClick={addRatingToProduct}
                     className="button border-0"
                     type="button"
+                    disabled={productLoading}
                   >
-                    Submit Review
+                    {productLoading ? "Submitting..." : "Submit Review"}
                   </button>
                 </div>
               </div>

@@ -14,6 +14,7 @@ import {
   getUserCart,
   resetState,
 } from "../features/user/userSlice";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 let shippingSchema = yup.object({
   firstname: yup.string().required("First Name is Required"),
@@ -258,6 +259,7 @@ const Checkout = () => {
 
   return (
     <>
+      <LoadingOverlay active={isProcessing} message="Processing order..." />
       <Container class1="checkout-wrapper checkout-premium py-5 home-wrapper-2" id="smooth-content">
         <div className="checkout-shell">
           <header className="checkout-hero">

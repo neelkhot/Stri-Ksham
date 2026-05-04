@@ -6,7 +6,7 @@ import { BiPhoneCall, BiInfoCircle, BiSend } from "react-icons/bi";
 import Container from "../components/Container";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createQuery } from "../features/contact/contactSlice";
 
 const STORE_EMAIL = "rivaacollctn@gmail.com";
@@ -26,6 +26,7 @@ let contactSchema = yup.object({
 
 const Contact = () => {
   const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state?.contact?.isLoading);
 
   const buildMailLink = ({ name, email, mobile, comment }) => {
     const subject = encodeURIComponent(`Website enquiry from ${name}`);
@@ -149,9 +150,13 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <button className="button border-0 contact-submit" type="submit">
+                  <button
+                    className="button border-0 contact-submit"
+                    type="submit"
+                    disabled={isLoading}
+                  >
                     <BiSend />
-                    Send Mail
+                    {isLoading ? "Sending..." : "Send Mail"}
                   </button>
                 </div>
               </form>

@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import Footer from "./Footer";
 import Header from "./Header";
+import LoadingOverlay from "./LoadingOverlay";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -38,6 +39,7 @@ const Layout = () => {
   return (
     <>
       <Header />
+      <LoadingOverlay message="Please wait..." />
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <main key={location.pathname} className="page-transition">

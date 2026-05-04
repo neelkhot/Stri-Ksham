@@ -124,7 +124,13 @@ const Signup = () => {
                 </div>
                 <div>
                   <div className="auth-actions single-action">
-                    <button className="button border-0">Sign Up</button>
+                    <button
+                      className="button border-0"
+                      type="submit"
+                      disabled={authState.isLoading}
+                    >
+                      {authState.isLoading ? "Creating..." : "Sign Up"}
+                    </button>
                   </div>
                   <p className="auth-switch-text">
                     Already have an account? <Link to="/login">Login</Link>
