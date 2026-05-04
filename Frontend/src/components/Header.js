@@ -11,6 +11,7 @@ import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { getAProduct } from "../features/products/productSlilce";
 import { getuserProductWishlist, getUserCart } from "../features/user/userSlice";
+import { getAuthConfig, getStoredCustomer } from "../utils/axiosConfig";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -24,21 +25,14 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const customerToken = localStorage.getItem("customer")
-    ? JSON.parse(localStorage.getItem("customer"))?.token
-    : "";
+  const customerToken = getStoredCustomer()?.token || "";
 
-  const config2 = useMemo(() => ({
-    headers: {
-      Authorization: `Bearer ${customerToken}`,
-      Accept: "application/json",
-    },
-  }), [customerToken]);
+  const config2 = useMemo(() => getAuthConfig(), [customerToken]);
 
   useEffect(() => {
     if (authState?.user) {
-      dispatch(getUserCart(config2));
-      dispatch(getuserProductWishlist());
+      if (!cartState) dispatch(getUserCart(config2));
+      if (!wishlistState) dispatch(getuserProductWishlist());
     } else {
       setTotal(0);
     }
@@ -49,7 +43,7 @@ const Header = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [authState?.user, config2, dispatch]);
+  }, [authState?.user, cartState, config2, dispatch, wishlistState]);
 
   const [productOpt, setProductOpt] = useState([]);
   useEffect(() => {
@@ -117,7 +111,7 @@ const Header = () => {
                 <div className="premium-search">
                   <Typeahead
                     id="pagination-example"
-                    onPaginate={() => console.log("Results paginated")}
+                    onPaginate={() => {}}
                     onChange={(selected) => {
                       navigate(`/product/${selected[0]?.prod}`);
                       dispatch(getAProduct(selected[0]?.prod));

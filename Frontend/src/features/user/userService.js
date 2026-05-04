@@ -1,18 +1,24 @@
 import axios from "axios";
-import { base_url } from "../../utils/axiosConfig";
+import { base_url, getAuthConfig } from "../../utils/axiosConfig";
 
-const getAuthConfig = () => {
-  const customer = localStorage.getItem("customer")
-    ? JSON.parse(localStorage.getItem("customer"))
-    : null;
+const privateCache = new Map();
+const PRIVATE_CACHE_MS = 15 * 1000;
 
-  return {
-    headers: {
-      Authorization: `Bearer ${customer?.token || ""}`,
-      Accept: "application/json",
-    },
-  };
+const getCached = (key) => {
+  const cached = privateCache.get(key);
+  if (!cached || cached.expiresAt < Date.now()) {
+    privateCache.delete(key);
+    return null;
+  }
+  return cached.data;
 };
+
+const setCached = (key, data, ttl = PRIVATE_CACHE_MS) => {
+  privateCache.set(key, { data, expiresAt: Date.now() + ttl });
+  return data;
+};
+
+const clearPrivateCache = () => privateCache.clear();
 
 const register = async (userData) => {
   const response = await axios.post(`${base_url}user/register`, userData);
@@ -26,28 +32,38 @@ const login = async (userData) => {
 
   if (response.data) {
     localStorage.setItem("customer", JSON.stringify(response.data));
+    clearPrivateCache();
   }
   return response.data;
 };
 
 const getUserWislist = async () => {
+  const cached = getCached("wishlist");
+  if (cached) return cached;
+
   const response = await axios.get(`${base_url}user/wishlist`, getAuthConfig());
   if (response.data) {
-    return response.data;
+    return setCached("wishlist", response.data);
   }
 };
 
 const addToCart = async (cartData) => {
   const response = await axios.post(`${base_url}user/cart`, cartData, getAuthConfig());
   if (response.data) {
+    clearPrivateCache();
     return response.data;
   }
 };
 
 const getCart = async (data) => {
+  if (!data) {
+    const cached = getCached("cart");
+    if (cached) return cached;
+  }
+
   const response = await axios.get(`${base_url}user/cart`, data || getAuthConfig());
   if (response.data) {
-    return response.data;
+    return data ? response.data : setCached("cart", response.data);
   }
 };
 
@@ -55,9 +71,10 @@ const removeProductFromCart = async (data) => {
   const response = await axios.delete(
     `${base_url}user/delete-product-cart/${data.id}`,
 
-    data.config2
+    data.config2 || getAuthConfig()
   );
   if (response.data) {
+    clearPrivateCache();
     return response.data;
   }
 };
@@ -68,6 +85,7 @@ const updateProductFromCart = async (cartDetail) => {
     getAuthConfig()
   );
   if (response.data) {
+    clearPrivateCache();
     return response.data;
   }
 };
@@ -79,15 +97,19 @@ const createOrder = async (orderDetail) => {
     getAuthConfig()
   );
   if (response.data) {
+    clearPrivateCache();
     return response.data;
   }
 };
 
 const getUserOrders = async () => {
+  const cached = getCached("orders");
+  if (cached) return cached;
+
   const response = await axios.get(`${base_url}user/getmyorders`, getAuthConfig());
 
   if (response.data) {
-    return response.data;
+    return setCached("orders", response.data);
   }
 };
 
@@ -99,6 +121,7 @@ const updateUser = async (data) => {
   );
 
   if (response.data) {
+    clearPrivateCache();
     return response.data;
   }
 };
@@ -110,6 +133,7 @@ const forgotPasswordToken = async (data) => {
   );
 
   if (response.data) {
+    clearPrivateCache();
     return response.data;
   }
 };
@@ -128,9 +152,10 @@ const resetPass = async (data) => {
 };
 
 const emptyCart = async (data) => {
-  const response = await axios.delete(`${base_url}user/empty-cart`, data);
+  const response = await axios.delete(`${base_url}user/empty-cart`, data || getAuthConfig());
 
   if (response.data) {
+    clearPrivateCache();
     return response.data;
   }
 };

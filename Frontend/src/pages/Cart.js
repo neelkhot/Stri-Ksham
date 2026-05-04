@@ -185,21 +185,13 @@ import {
   getUserCart,
   updateCartProduct,
 } from "../features/user/userSlice";
+import { getAuthConfig, getStoredCustomer } from "../utils/axiosConfig";
 
 const Cart = () => {
-  const getTokenFromLocalStorage = localStorage.getItem("customer")
-    ? JSON.parse(localStorage.getItem("customer"))
-    : null;
-
-  const customerToken = getTokenFromLocalStorage?.token || "";
+  const customerToken = getStoredCustomer()?.token || "";
 
   const config2 = useMemo(
-    () => ({
-      headers: {
-        Authorization: `Bearer ${customerToken}`,
-        Accept: "application/json",
-      },
-    }),
+    () => getAuthConfig(),
     [customerToken]
   );
 
@@ -215,24 +207,25 @@ const Cart = () => {
     dispatch(getUserCart(config2));
   }, [config2, dispatch]);
 
-  // Update quantity
+  // Update quantity after the user pauses typing/clicking.
   useEffect(() => {
     if (productupdateDetail !== null) {
-      dispatch(
-        updateCartProduct({
-          cartItemId: productupdateDetail?.cartItemId,
-          quantity: productupdateDetail?.quantity,
-        })
-      ).then(() => {
-        dispatch(getUserCart(config2));
-      });
+      const timer = setTimeout(() => {
+        dispatch(
+          updateCartProduct({
+            cartItemId: productupdateDetail?.cartItemId,
+            quantity: productupdateDetail?.quantity,
+          })
+        );
+      }, 500);
+
+      return () => clearTimeout(timer);
     }
   }, [config2, productupdateDetail, dispatch]);
 
   // Delete item
   const deleteACartProduct = async (id) => {
     await dispatch(deleteCartProduct({ id: id, config2: config2 }));
-    dispatch(getUserCart(config2));
   };
 
   // Calculate total

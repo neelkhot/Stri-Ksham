@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../features/user/userSlice";
 import { FiEdit } from "react-icons/fi";
+import { getAuthConfig } from "../utils/axiosConfig";
 
 let profileSchema = yup.object({
   firstname: yup.string().required("First Name is Required"),
@@ -18,18 +19,7 @@ let profileSchema = yup.object({
 });
 
 const Profile = () => {
-  const getTokenFromLocalStorage = localStorage.getItem("customer")
-    ? JSON.parse(localStorage.getItem("customer"))
-    : null;
-
-  const config2 = {
-    headers: {
-      Authorization: `Bearer ${
-        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
-      }`,
-      Accept: "application/json",
-    },
-  };
+  const config2 = getAuthConfig();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.auth.user);
   const [edit, setEdit] = useState(true);

@@ -15,6 +15,7 @@ import {
 } from "../features/products/productSlilce";
 import { toast } from "react-toastify";
 import { addProdToCart, getuserProductWishlist, getUserCart } from "../features/user/userSlice";
+import { getStoredCustomer } from "../utils/axiosConfig";
 
 const SingleProduct = () => {
   const [color, setColor] = useState(null);
@@ -30,6 +31,7 @@ const SingleProduct = () => {
   const productsState = useSelector((state) => state?.product?.product);
   const cartState = useSelector((state) => state?.auth?.cartProducts);
   const wishlistState = useSelector((state) => state?.auth?.wishlist?.wishlist);
+  const isLoggedIn = Boolean(getStoredCustomer()?.token);
   const productImages = productState?.images || [];
   const reviewCount = productState?.ratings?.length || 0;
   const averageRating = reviewCount
@@ -41,14 +43,25 @@ const SingleProduct = () => {
   const fallbackImage =
     "https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=900";
   const [selectedImage, setSelectedImage] = useState(fallbackImage);
-  console.log(wishlistState);
-
   useEffect(() => {
     dispatch(getAProduct(getProductId));
-    dispatch(getUserCart());
-    dispatch(getuserProductWishlist());
-    dispatch(getAllProducts());
-  }, [dispatch, getProductId]);
+    const timer = setTimeout(() => {
+      dispatch(
+        getAllProducts({
+          tag: "popular",
+          limit: 8,
+          fields: "title,brand,price,images,tags",
+        })
+      );
+    }, 250);
+
+    if (isLoggedIn) {
+      dispatch(getUserCart());
+      dispatch(getuserProductWishlist());
+    }
+
+    return () => clearTimeout(timer);
+  }, [dispatch, getProductId, isLoggedIn]);
 
   useEffect(() => {
     setSelectedImage(productState?.images?.[0]?.url || fallbackImage);
@@ -80,13 +93,11 @@ const SingleProduct = () => {
           price: productState?.price,
         })
       );
-      dispatch(getUserCart());
       navigate("/cart");
     }
   };
   const orderedProduct = true;
   const copyToClipboard = (text) => {
-    console.log("text", text);
     var textField = document.createElement("textarea");
     textField.innerText = text;
     document.body.appendChild(textField);

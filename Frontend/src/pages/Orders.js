@@ -10,22 +10,9 @@ const Orders = () => {
     (state) => state?.auth?.getorderedProduct?.orders
   );
 
-  const getTokenFromLocalStorage = localStorage.getItem("customer")
-    ? JSON.parse(localStorage.getItem("customer"))
-    : null;
-
-  const config2 = {
-    headers: {
-      Authorization: `Bearer ${
-        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
-      }`,
-      Accept: "application/json",
-    },
-  };
-
   useEffect(() => {
-    dispatch(getOrders(config2));
-  }, []);
+    dispatch(getOrders());
+  }, [dispatch]);
   return (
     <>
       <BreadCrumb title="My Orders" />

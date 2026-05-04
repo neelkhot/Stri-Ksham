@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { authService } from "./userService";
 import { toast } from "react-toastify";
+import { getStoredCustomer } from "../../utils/axiosConfig";
 
 export const registerUser = createAsyncThunk(
   "auth/register",
@@ -8,7 +9,9 @@ export const registerUser = createAsyncThunk(
     try {
       return await authService.register(userData);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(
+        error.response?.data || { message: error.message || "Registration failed" }
+      );
     }
   }
 );
@@ -19,7 +22,9 @@ export const loginUser = createAsyncThunk(
     try {
       return await authService.login(userData);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(
+        error.response?.data || { message: error.message || "Login failed" }
+      );
     }
   }
 );
@@ -162,7 +167,7 @@ export const resetPassword = createAsyncThunk(
 export const resetState = createAction("Reset_all");
 
 const getCustomerfromLocalStorage = localStorage.getItem("customer")
-  ? JSON.parse(localStorage.getItem("customer"))
+  ? getStoredCustomer()
   : null;
 
 const initialState = {
@@ -195,9 +200,9 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
-        state.message = action.error;
+        state.message = action.payload?.message || action.error?.message;
         if (state.isError === true) {
-          toast.error(action.payload.response.data.message);
+          toast.error(state.message || "Registration failed");
         }
       })
       .addCase(loginUser.pending, (state) => {
@@ -218,9 +223,9 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
-        state.message = action.error;
+        state.message = action.payload?.message || action.error?.message;
         if (state.isError === true) {
-          toast.error(action.payload.response.data.message);
+          toast.error(state.message || "Login failed");
         }
       })
       .addCase(getuserProductWishlist.pending, (state) => {
@@ -348,7 +353,6 @@ export const authSlice = createSlice({
   state.isSuccess = false;
   state.message = action.payload?.message || "Something Went Wrong!";
   toast.error(state.message);
-  console.log(state.message);
 })
 
       .addCase(getOrders.pending, (state) => {

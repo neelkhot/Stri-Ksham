@@ -15,7 +15,6 @@ const ProductCard = (props) => {
   const navigate = useNavigate();
   const { grid, data } = props;
   const dispatch = useDispatch();
-  console.log(data);
 
   const wishlistState = useSelector((state) => state?.auth?.wishlist?.wishlist);
 

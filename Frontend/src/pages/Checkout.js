@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
-import { base_url, config } from "../utils/axiosConfig";
+import { base_url, getAuthConfig, getStoredCustomer } from "../utils/axiosConfig";
 import {
   createAnOrder,
   deleteUserCart,
@@ -37,18 +37,8 @@ const Checkout = () => {
   const shippingCost = totalAmount ? 100 : 0;
   const payableAmount = totalAmount + shippingCost;
 
-  const getTokenFromLocalStorage = localStorage.getItem("customer")
-    ? JSON.parse(localStorage.getItem("customer"))
-    : null;
-
-  const config2 = {
-    headers: {
-      Authorization: `Bearer ${
-        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
-      }`,
-      Accept: "application/json",
-    },
-  };
+  const storedCustomer = getStoredCustomer();
+  const config2 = getAuthConfig();
 
   useEffect(() => {
     let sum = 0;
@@ -60,7 +50,7 @@ const Checkout = () => {
 
   useEffect(() => {
     dispatch(getUserCart(config2));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (
@@ -184,7 +174,7 @@ const Checkout = () => {
       const result = await axios.post(
         `${base_url}user/order/create-razorpay-order`,
         { amount: payableAmount },
-        config
+        getAuthConfig()
       );
 
       if (!result) {
@@ -212,7 +202,7 @@ const Checkout = () => {
           const verifyResult = await axios.post(
             `${base_url}user/order/paymentVerification`,
             data,
-            config
+            getAuthConfig()
           );
 
           await dispatch(
@@ -235,8 +225,8 @@ const Checkout = () => {
         },
         prefill: {
           name: `${shippingData.firstname} ${shippingData.lastname}`,
-          email: getTokenFromLocalStorage?.email || "",
-          contact: getTokenFromLocalStorage?.mobile || "",
+          email: storedCustomer?.email || "",
+          contact: storedCustomer?.mobile || "",
         },
         theme: {
           color: "#1a1a1a",

@@ -26,7 +26,12 @@ const Home = () => {
     // Page load transition
     setTimeout(() => setIsLoaded(true), 100);
 
-    dispatch(getAllProducts());
+    dispatch(
+      getAllProducts({
+        limit: 8,
+        fields: "title,brand,price,images,createdAt",
+      })
+    );
 
     // Hero Content Animation (on load)
     gsap.fromTo(heroRef.current.querySelectorAll(".hero-content > *"), 

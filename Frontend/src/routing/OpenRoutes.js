@@ -1,7 +1,8 @@
 import { Navigate } from "react-router-dom";
+import { getStoredCustomer } from "../utils/axiosConfig";
 
 export const OpenRoutes = ({ children }) => {
-  const getTokenFromLocalStorage = JSON.parse(localStorage.getItem("customer"));
+  const getTokenFromLocalStorage = getStoredCustomer();
   return getTokenFromLocalStorage?.token === undefined ? (
     children
   ) : (
