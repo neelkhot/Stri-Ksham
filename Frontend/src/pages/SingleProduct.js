@@ -16,6 +16,7 @@ import {
 import { toast } from "react-toastify";
 import { addProdToCart, getuserProductWishlist, getUserCart } from "../features/user/userSlice";
 import { getStoredCustomer } from "../utils/axiosConfig";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 const SingleProduct = () => {
   const [color, setColor] = useState(null);
@@ -45,6 +46,7 @@ const SingleProduct = () => {
   const fallbackImage =
     "https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=900";
   const [selectedImage, setSelectedImage] = useState(fallbackImage);
+  const isCurrentProductLoaded = productState?._id === getProductId;
 
   const normalizeId = (value) => {
     if (!value) return "";
@@ -175,9 +177,13 @@ const SingleProduct = () => {
 
   return (
     <>
+      <LoadingOverlay
+        active={!isCurrentProductLoaded && productLoading}
+        message="Loading product..."
+      />
       <Meta title={"Product Name"} />
-      <BreadCrumb title={productState?.title} />
-      <Container class1="main-product-wrapper py-5 home-wrapper-2">
+      {isCurrentProductLoaded && <BreadCrumb title={productState?.title} />}
+      {isCurrentProductLoaded && <Container class1="main-product-wrapper py-5 home-wrapper-2">
         <div className="product-view-grid">
           <div className="product-gallery-panel">
             <div className="main-product-image">
@@ -380,8 +386,8 @@ const SingleProduct = () => {
             </div>
           </div>
         </div>
-      </Container>
-      <Container class1="description-wrapper py-5 home-wrapper-2">
+      </Container>}
+      {isCurrentProductLoaded && <Container class1="description-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
             <h4>Description</h4>
@@ -392,8 +398,8 @@ const SingleProduct = () => {
             </div>
           </div>
         </div>
-      </Container>
-      <Container class1="reviews-wrapper home-wrapper-2">
+      </Container>}
+      {isCurrentProductLoaded && <Container class1="reviews-wrapper home-wrapper-2">
         <div className="row">
           <div className="col-12">
             <h3 id="review">Reviews</h3>
@@ -485,7 +491,7 @@ const SingleProduct = () => {
             </div>
           </div>
         </div>
-      </Container>
+      </Container>}
       <Container class1="popular-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">

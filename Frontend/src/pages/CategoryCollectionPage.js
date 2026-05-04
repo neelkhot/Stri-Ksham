@@ -10,6 +10,7 @@ import "./OurStore.css";
 const CategoryCollectionPage = ({
   title,
   category,
+  categories,
   tag,
   defaultSort = null,
   emptyMessage = "No products found in this collection",
@@ -18,10 +19,12 @@ const CategoryCollectionPage = ({
   const [sort, setSort] = useState(defaultSort);
   const dispatch = useDispatch();
   const productState = useSelector((state) => state?.product?.product);
+  const categoryFilter =
+    Array.isArray(categories) && categories.length > 0 ? categories : category;
 
   const getProducts = useCallback(() => {
-    dispatch(getAllProducts({ category, tag, sort }));
-  }, [category, dispatch, sort, tag]);
+    dispatch(getAllProducts({ category: categoryFilter, tag, sort }));
+  }, [categoryFilter, dispatch, sort, tag]);
 
   useEffect(() => {
     getProducts();

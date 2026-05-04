@@ -23,7 +23,11 @@ const getProducts = async (data) => {
 
   if (data?.brand) params.append("brand", data.brand);
   if (data?.tag) params.append("tags", data.tag);
-  if (data?.category) params.append("category", data.category);
+  if (Array.isArray(data?.category)) {
+    params.append("category", data.category.join(","));
+  } else if (data?.category) {
+    params.append("category", data.category);
+  }
   if (data?.minPrice) params.append("price[gte]", data.minPrice);
   if (data?.maxPrice) params.append("price[lte]", data.maxPrice);
   if (data?.sort) params.append("sort", data.sort);

@@ -27,10 +27,15 @@ const LoadingOverlay = ({ active, message = "Loading..." }) => {
     return () => clearTimeout(timer);
   }, [shouldShow]);
 
-  if (!visible) return null;
+  const showOverlay = visible || shouldShow;
 
   return (
-    <div className="site-loading-overlay" role="status" aria-live="polite">
+    <div
+      className={`site-loading-overlay ${showOverlay ? "show" : ""}`}
+      role="status"
+      aria-live="polite"
+      aria-hidden={!showOverlay}
+    >
       <div className="site-loading-card">
         <div className="site-loading-logo">R</div>
         <div className="site-loading-spinner" aria-hidden="true"></div>
