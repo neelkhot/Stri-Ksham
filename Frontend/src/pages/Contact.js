@@ -177,7 +177,7 @@ const Contact = () => {
                   <div>
                     <span>Address</span>
                     <address>
-                      Hno : ashok chouk, sakher peth, Solapur, Maharashtra 413006
+                      Hno : Ashok Chouk, Sakher Peth, Solapur, Maharashtra 413006
                     </address>
                   </div>
                 </li>
