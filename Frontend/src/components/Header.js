@@ -101,8 +101,8 @@ const Header = () => {
               {/* Logo */}
               <div className="header-brand-col">
                 <Link className="brand-logo" to="/">
-                  <span className="logo-text">RIVAA</span>
-                  <span className="logo-sub">COLLECTION</span>
+                  <span className="logo-text">Stri Ksham</span>
+                  <span className="logo-sub"></span>
                 </Link>
               </div>
 
