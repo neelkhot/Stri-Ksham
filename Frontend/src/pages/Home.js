@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../features/products/productSlilce";
+import heroImage from "../images/heroimage.jpg";
 import "./Home.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -217,7 +218,7 @@ const categories = [
 
         {/* Layer 2 - Mid background */}
         <div className="parallax-layer parallax-layer-2">
-          <img src="/images/123.jpg" alt="fashion collection hero" className="layer-image" />
+          <img src={heroImage} alt="fashion collection hero" className="layer-image" />
         </div>
 
         {/* Layer 3 - Closer (faster) - Text and floating elements */}
