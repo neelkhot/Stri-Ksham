@@ -1961,13 +1961,22 @@ footer .input-group-text {
 
 .brand-logo {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   text-decoration: none;
   width: fit-content;
   padding: 8px 14px;
   border: 1px solid rgba(201, 169, 98, 0.22);
   border-radius: var(--glass-radius-sm);
   background: rgba(255, 255, 255, 0.04);
+}
+
+.brand-logo-img {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .logo-text {
@@ -2664,6 +2673,17 @@ a.contact-value:hover {
   .logo-text {
     font-size: 1.45rem;
     letter-spacing: 4px;
+  }
+
+  .brand-logo {
+    gap: 8px;
+    padding: 7px 10px;
+  }
+
+  .brand-logo-img {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
   }
 
   .logo-sub {

@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
-import compare from "../images/compare.svg";
 import wishlist from "../images/wishlist.svg";
 import user from "../images/user.svg";
 import cart from "../images/cart.svg";
 import menu from "../images/menu.svg";
+import strikshamLogo from "../images/strikshamlogo.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
@@ -101,8 +101,8 @@ const Header = () => {
               {/* Logo */}
               <div className="header-brand-col">
                 <Link className="brand-logo" to="/">
+                  <img className="brand-logo-img" src={strikshamLogo} alt="Striksham logo" />
                   <span className="logo-text">Stri Ksham</span>
-                  <span className="logo-sub"></span>
                 </Link>
               </div>
 
